@@ -95,8 +95,9 @@ public class LoginActivity extends BaseMoudleActivity implements CommonPopupWind
     public void initData() {
         super.initData();
 
-        if(!TextUtils.isEmpty(SharePreferenceUtil.getInstance().getString("url"))) {
-            Contasts.BASE_URL = "http://" + SharePreferenceUtil.getInstance().getString("url") + "/MDInfaceSystem96cs/servlet/doserverdata";
+        String url = SharePreferenceUtil.getInstance().getString("url");
+        if(!TextUtils.isEmpty(url)) {
+            Contasts.BASE_URL = url;
         }
 
         setEditextFilter(etAccount, new OnScanFinishListener() {

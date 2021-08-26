@@ -72,7 +72,7 @@ public class SystemSettingActivity extends BaseMoudleActivity {
         ivSwitch.setImageResource(isOpen ? R.drawable.cb_check : R.drawable.cb_uncheck);
 
 
-        tvBbh.setText("V"+UpdateManager.getInatance().getVersionName(this));
+        tvBbh.setText("V" + UpdateManager.getInatance().getVersionName(this));
     }
 
     @OnClick({R.id.iv_switch, R.id.iv_common_left, R.id.tv_sure})
@@ -95,12 +95,12 @@ public class SystemSettingActivity extends BaseMoudleActivity {
               //  Contasts.BASE_URL = "http://" + etErp.getText().toString().trim() + "/MDInfaceSystem96cs/servlet/doserverdata";
                 Contasts.BASE_URL = etErp.getText().toString().trim();
 
-                try{
+                try {
                     checkUrl();
 
-                }catch (Exception e){
+                } catch (Exception e) {
                     mProgressDilog.dismiss();
-                    if(e instanceof IllegalArgumentException){
+                    if (e instanceof IllegalArgumentException) {
                         Toaster.showMsg("无效地址！");
                     }
                 }
