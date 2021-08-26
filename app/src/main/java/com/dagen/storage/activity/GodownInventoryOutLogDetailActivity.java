@@ -127,7 +127,13 @@ public class GodownInventoryOutLogDetailActivity extends BaseMoudleActivity {
                         showPopup(content,bean.getQtyplan()-bean.getQty());
                     }
                 }else {
-                    Toaster.showMsg("扫描条码与建议条码不一致！");
+                    showSingleSureDialog("扫描条码与建议条码不一致！", () -> {
+                        etScam.setText("");
+                        etScam.setSelection(0);
+                    });
+                    playSoundAndVirate();
+
+                    // Toaster.showMsg("扫描条码与建议条码不一致！");
                 }
 
             }

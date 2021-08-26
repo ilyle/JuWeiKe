@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/main_bg"
-    >
+    android:orientation="vertical">
 
     <include layout="@layout/common_title"></include>
 
@@ -12,42 +12,38 @@
         android:layout_height="wrap_content"
         android:background="@color/color_ffffff"
         android:focusable="true"
-        android:focusableInTouchMode="true"
-        >
+        android:focusableInTouchMode="true">
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="44dp"
-            android:layout_weight="1"
-            android:background="@drawable/shape_f5f7fa_bg_4"
             android:layout_marginLeft="20dp"
             android:layout_marginTop="15dp"
             android:layout_marginBottom="15dp"
-            >
+            android:layout_weight="1"
+            android:background="@drawable/shape_f5f7fa_bg_4">
 
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                android:src="@drawable/search_gray"
                 android:layout_marginLeft="15dp"
                 android:layout_marginRight="15dp"
-                ></ImageView>
+                android:src="@drawable/search_gray"></ImageView>
 
             <EditText
                 android:id="@+id/et_search"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:textColorHint="@color/color_c0c4cc"
-                android:imeOptions="actionDone"
-                android:singleLine="true"
-                android:inputType="text"
                 android:layout_gravity="center_vertical"
-                android:maxLines="1"
-                android:hint="请输入单号"
-                android:textSize="14sp"
                 android:background="@null"
-                ></EditText>
+                android:hint="请输入单号"
+                android:imeOptions="actionDone"
+                android:inputType="text"
+                android:maxLines="1"
+                android:singleLine="true"
+                android:textColorHint="@color/color_c0c4cc"
+                android:textSize="14sp"></EditText>
 
         </LinearLayout>
 
@@ -56,29 +52,26 @@
             android:layout_width="wrap_content"
             android:layout_height="44dp"
             android:layout_gravity="center_vertical"
-            android:layout_marginRight="20dp"
             android:layout_marginLeft="8dp"
-            android:background="@drawable/shape_478dee_bg_4"
-            >
+            android:layout_marginRight="20dp"
+            android:background="@drawable/shape_478dee_bg_4">
 
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/shaixuan"
                 android:layout_gravity="center_vertical"
                 android:layout_marginLeft="10dp"
-                ></ImageView>
+                android:src="@drawable/shaixuan"></ImageView>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="筛选"
-                android:textSize="14sp"
-                android:layout_marginRight="10dp"
-                android:layout_marginLeft="2dp"
-                android:textColor="@color/color_ffffff"
                 android:layout_gravity="center_vertical"
-                ></TextView>
+                android:layout_marginLeft="2dp"
+                android:layout_marginRight="10dp"
+                android:text="筛选"
+                android:textColor="@color/color_ffffff"
+                android:textSize="14sp"></TextView>
 
         </LinearLayout>
 
@@ -92,7 +85,7 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rc_view"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"></androidx.recyclerview.widget.RecyclerView>
+            android:layout_height="match_parent" />
 
     </com.scwang.smartrefresh.layout.SmartRefreshLayout>
 
