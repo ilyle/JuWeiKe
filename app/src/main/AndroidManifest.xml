@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.dagen.storage">
+
+    <uses-permission android:name="android.permission.INTERNET"></uses-permission>
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"></uses-permission>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"></uses-permission>
+    <uses-permission android:name="android.permission.CAMERA"></uses-permission>
+
+    <uses-permission android:name="android.permission.VIBRATE" />
+
+    <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES"/>
+
+
+    <application
+        android:name="com.dagen.storage.MyApplication"
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:networkSecurityConfig="@xml/network_security_config"
+        android:theme="@style/AppTheme">
+        <activity android:name="com.dagen.storage.SplashActivity" android:screenOrientation="portrait" android:theme="@style/SplashTheme">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <activity android:name="com.dagen.storage.MainActivity" android:screenOrientation="portrait"></activity>
+        <activity android:name=".LoginActivity" android:screenOrientation="portrait"></activity>
+        <activity android:name=".activity.SystemSettingActivity" android:screenOrientation="portrait"></activity>
+        <activity android:name=".activity.WareHousingEntryInsertActivity" android:screenOrientation="portrait"></activity>
+        <activity android:name=".activity.GodownInventoryOutLogHomeActivity" android:screenOrientation="portrait"></activity>
+        <activity android:name=".activity.GodownInventoryOutLogDetailActivity" android:screenOrientation="portrait"></activity>
+        <activity android:name=".activity.ScreenOutActivity" android:screenOrientation="portrait"></activity>
+        <activity android:name=".activity.WareHousingEntryInLogHomeActivity" android:screenOrientation="portrait"></activity>
+        <activity android:name=".activity.WareHousingEntryInLogDetailActivity" android:screenOrientation="portrait"></activity>
+        <activity android:name=".activity.WareHousingEntryActivity" android:screenOrientation="portrait"></activity>
+        <activity android:name=".activity.WareHousingEntryTmDelActivity" android:screenOrientation="portrait"></activity>
+        <activity android:name=".activity.StockQueryForSpecActivity" android:screenOrientation="portrait"></activity>
+        <activity android:name=".activity.SelectStoreActivity" android:screenOrientation="portrait"></activity>
+        <activity android:name=".activity.StockQueryForTmActivity" android:screenOrientation="portrait"></activity>
+        <activity android:name=".activity.WareHousingEntryInsert2Activity" android:screenOrientation="portrait"></activity>
+        <activity android:name=".activity.WareHousingInLogAddActivity" android:screenOrientation="portrait"></activity>
+        <activity android:name=".activity.WareHousingEntryMoveDetailActivity" android:screenOrientation="portrait"></activity>
+        <activity android:name=".activity.WareHousingEntryCheckDetailActivity" android:screenOrientation="portrait"></activity>
+
+
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="com.dagen.storage.fileProvider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths" />
+        </provider>
+
+
+        <meta-data
+            android:name="design_width_in_dp"
+            android:value="375"/>
+        <meta-data
+            android:name="design_height_in_dp"
+            android:value="667"/>
+
+    </application>
+
+</manifest>

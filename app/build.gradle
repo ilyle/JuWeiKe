@@ -1,0 +1,132 @@
+apply plugin: 'com.android.application'
+apply plugin: 'com.mob.sdk'
+
+android {
+    compileSdkVersion var.compileSdkVersion
+    buildToolsVersion "29.0.3"
+    defaultConfig {
+        applicationId "com.dagen.storage"
+        minSdkVersion var.minSdkVersion
+        targetSdkVersion var.targetSdkVersion
+        versionCode 10
+        versionName "1.0.9"
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    signingConfigs {
+        Task {
+            keyAlias 'storage'
+            keyPassword '123456'
+            storeFile file('../storage.jks')
+            storePassword '123456'
+        }
+    }
+
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+
+            signingConfig signingConfigs.Task
+
+            applicationVariants.all { variant ->
+                variant.outputs.all {
+                    // 输出apk名称为WeiLaiCheng1.0_2018-08-13.apk
+                    def fileName = "Stroage${defaultConfig.versionName}.apk"
+                    outputFileName = fileName
+                }
+            }
+        }
+
+        debug {
+            signingConfig signingConfigs.Task
+        }
+    }
+
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+
+    MobSDK {
+        appKey "2fab29870f22a"
+        appSecret "4f0fd8e0b658ce6a02443129f8d61679"
+
+        SMSSDK {}
+
+        ShareSDK {
+            //平台配置信息
+            devInfo {
+                Wechat {
+                    appId "wxd8320ae9d074e808"
+                    appSecret "80a7c5e9aeffa3255aa2c6325cc971af"
+                    BypassApproval false
+                }
+
+                WechatMoments {
+                    appId "wxd8320ae9d074e808"
+                    appSecret "80a7c5e9aeffa3255aa2c6325cc971af"
+                    BypassApproval false
+                }
+                QQ {
+                    appId "101886760"
+                    appKey "c4393a341c75635d5997f8ccfbc4c517"
+                    shareByAppClient true
+                }
+                QZone {
+                    appId "101886760"
+                    appKey "c4393a341c75635d5997f8ccfbc4c517"
+                    shareByAppClient true
+                }
+
+            }
+        }
+    }
+
+
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation 'androidx.appcompat:appcompat:1.1.0'
+    implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
+    testImplementation 'junit:junit:4.12'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.1'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
+
+
+    implementation project(':moudlelibrary')
+    implementation project(':baselibrary')
+
+    implementation 'com.scwang.smartrefresh:SmartRefreshLayout:1.0.5.1'
+    implementation 'com.scwang.smartrefresh:SmartRefreshHeader:1.0.5.1'
+
+    implementation 'me.jessyan:autosize:0.9.5'
+
+    implementation 'androidx.recyclerview:recyclerview:1.0.0'
+
+    implementation 'com.jakewharton:butterknife:10.0.0'
+    annotationProcessor 'com.jakewharton:butterknife-compiler:10.0.0'
+
+    implementation 'com.github.arcadefire:nice-spinner:1.4.4'
+
+    implementation 'com.github.tbruyelle:rxpermissions:0.10.2'
+    implementation 'io.reactivex.rxjava2:rxandroid:2.1.0'
+    implementation 'io.reactivex.rxjava2:rxjava:2.2.4'
+
+
+    implementation 'com.contrarywind:Android-PickerView:4.1.9'
+
+    implementation 'com.github.huangyanbin:SmartTable:2.0'
+
+
+}

@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:background="@color/smssdk_transparent"
+    android:clipChildren="false"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:orientation="vertical"
+        android:layout_marginTop="40dp"
+        android:background="@drawable/shape_ffffff_bg_10"
+        android:layout_height="wrap_content">
+
+
+
+    <ImageView
+        android:id="@+id/tv_update_tittle"
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        android:text="版本升级"
+        android:layout_marginTop="-40dp"
+        android:gravity="center"
+        android:background="@drawable/update_bg"
+        />
+
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="发现新版本"
+        android:layout_marginTop="5dp"
+        android:textSize="16sp"
+        android:textColor="@color/color_333333"
+        android:gravity="center"
+        />
+
+    <TextView
+        android:id="@+id/tv_update_versionname"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="V1.0.1"
+        android:layout_marginTop="5dp"
+        android:textSize="14sp"
+        android:textColor="@color/color_333333"
+        android:gravity="center"
+        />
+
+
+        <TextView
+        android:id="@+id/tv_update_content"
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:layout_marginLeft="24dp"
+        android:layout_marginRight="24dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="16dp"
+        android:lineSpacingExtra="8dp"
+        android:textSize="12sp"
+        android:textColor="@color/color_333333"
+        android:gravity="top"
+        />
+
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:visibility="gone"
+        android:background="@color/color_333333"></View>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_marginBottom="14dp"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/tv_cancel"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="忽略"
+            android:visibility="gone"
+            android:textSize="15sp"
+            android:textColor="@color/color_333333"
+            android:gravity="center"
+            />
+
+        <View
+            android:id="@+id/view_sx"
+            android:layout_width="1px"
+            android:visibility="gone"
+            android:layout_height="match_parent"
+            android:background="@color/color_333333"></View>
+
+        <TextView
+            android:id="@+id/tv_update"
+            style="@style/tv_sure_1"
+            android:layout_weight="1"
+            android:layout_gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="50dp"
+            android:layout_marginRight="50dp"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:text="立即更新"
+            />
+
+
+    </LinearLayout>
+
+    </LinearLayout>
+
+</LinearLayout>

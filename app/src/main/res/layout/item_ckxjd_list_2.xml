@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/shape_ffffff_bg_4"
+    android:layout_marginLeft="20dp"
+    android:layout_marginRight="20dp"
+    android:layout_marginTop="10dp"
+    >
+
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rc_mx"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"></androidx.recyclerview.widget.RecyclerView>
+
+    <TextView
+        android:id="@+id/tv_zjs_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="总件数："
+        android:layout_marginBottom="12dp"
+        android:layout_below="@+id/rc_mx"
+        android:textColor="@color/color_999999"
+        android:textSize="14sp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="10dp"
+        ></TextView>
+
+    <TextView
+        android:id="@+id/tv_zjs"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="0"
+        android:layout_marginBottom="12dp"
+        android:layout_toRightOf="@+id/tv_zjs_title"
+        android:textColor="@color/color_f56c5c"
+        android:textSize="14sp"
+        android:layout_alignTop="@+id/tv_zjs_title"
+        android:layout_marginLeft="5dp"
+        ></TextView>
+
+
+    <TextView
+        android:id="@+id/tv_zks_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="总款数："
+        android:layout_marginBottom="12dp"
+        android:layout_below="@+id/rc_mx"
+        android:layout_toRightOf="@+id/tv_zjs"
+        android:textColor="@color/color_999999"
+        android:textSize="14sp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginTop="10dp"
+        ></TextView>
+
+    <TextView
+        android:id="@+id/tv_zks"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="0"
+        android:layout_marginBottom="12dp"
+        android:layout_toRightOf="@+id/tv_zks_title"
+        android:textColor="@color/color_f56c5c"
+        android:textSize="14sp"
+        android:layout_alignTop="@+id/tv_zjs_title"
+        android:layout_marginLeft="5dp"
+        ></TextView>
+
+
+    <TextView
+        android:id="@+id/tv_czr_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="操作人："
+        android:layout_marginBottom="12dp"
+        android:layout_toRightOf="@+id/tv_zks"
+        android:layout_below="@+id/rc_mx"
+        android:textColor="@color/color_999999"
+        android:textSize="14sp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginTop="10dp"
+        ></TextView>
+
+    <TextView
+        android:id="@+id/tv_czr"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="0"
+        android:layout_marginBottom="12dp"
+        android:layout_toRightOf="@+id/tv_czr_title"
+        android:textColor="@color/color_f56c5c"
+        android:textSize="14sp"
+        android:layout_alignTop="@+id/tv_zjs_title"
+        android:layout_marginLeft="5dp"
+        ></TextView>
+
+
+</RelativeLayout>

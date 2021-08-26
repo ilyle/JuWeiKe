@@ -1,0 +1,34 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/color_478DFE</item>
+        <item name="colorPrimaryDark">@color/color_478DFE</item>
+        <item name="colorAccent">@color/colorAccent</item>
+    </style>
+
+    <style name="SplashTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:windowBackground">@color/color_478DFE</item>
+        <item name="colorPrimary">@color/color_478DFE</item>
+        <item name="colorPrimaryDark">@color/color_478DFE</item>
+    </style>
+
+    <!--自定义dialog背景全透明无边框theme -->
+    <style name="UpdateDialog" parent="android:style/Theme.Dialog">
+        <!--背景颜色及和透明程度-->
+        <item name="android:windowBackground">@android:color/transparent</item>
+    </style>
+
+    <style name="tv_sure_1" >
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textSize">15sp</item>
+        <item name="android:layout_marginLeft">15dp</item>
+        <item name="android:layout_marginRight">15dp</item>
+        <item name="android:layout_height">40dp</item>
+        <item name="android:textColor">@color/color_ffffff</item>
+        <item name="android:background">@drawable/shape_red_cornor_20</item>
+    </style>
+
+</resources>

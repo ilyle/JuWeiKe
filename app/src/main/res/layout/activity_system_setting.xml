@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/main_bg"
+    >
+
+    <include layout="@layout/common_title"></include>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/color_ffffff"
+        android:layout_marginTop="10dp"
+        >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="设置ERP地址："
+            android:layout_margin="20dp"
+            android:textColor="@color/color_666666"
+            android:textSize="14sp"
+            ></TextView>
+
+        <EditText
+            android:id="@+id/et_erp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@null"
+            android:layout_weight="1"
+            android:hint="请输入erp地址"
+            android:textSize="14sp"
+            android:textColor="@color/color_2a303c"
+            android:layout_marginRight="20dp"
+            android:textColorHint="@color/color_999999"
+            android:gravity="right|center"
+            ></EditText>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/color_ffffff"
+        android:layout_marginTop="1dp"
+        >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="版本号："
+            android:layout_margin="20dp"
+            android:textColor="@color/color_666666"
+            android:textSize="14sp"
+            ></TextView>
+
+        <TextView
+            android:id="@+id/tv_bbh"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@null"
+            android:layout_weight="1"
+            android:text="V1.0"
+            android:hint="请输入erp地址"
+            android:textSize="14sp"
+            android:textColor="@color/color_2a303c"
+            android:layout_marginRight="20dp"
+            android:textColorHint="@color/color_999999"
+            android:gravity="right|center"
+            ></TextView>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/color_ffffff"
+        android:layout_marginTop="1dp"
+        >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="自动升级系统："
+            android:layout_weight="1"
+            android:layout_margin="20dp"
+            android:textColor="@color/color_666666"
+            android:textSize="14sp"
+            ></TextView>
+
+        <ImageView
+            android:id="@+id/iv_switch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/cb_uncheck"
+            android:layout_gravity="center_vertical"
+            android:layout_marginRight="20dp"
+            ></ImageView>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/color_ffffff"
+        android:layout_marginTop="1dp"
+        >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="设备唯一标识："
+            android:layout_margin="20dp"
+            android:textColor="@color/color_666666"
+            android:textSize="14sp"
+            ></TextView>
+
+        <TextView
+            android:id="@+id/tv_sbbs"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@null"
+            android:layout_weight="1"
+            android:text="0000000"
+            android:textSize="14sp"
+            android:textColor="@color/color_2a303c"
+            android:layout_marginRight="20dp"
+            android:textColorHint="@color/color_999999"
+            android:gravity="right|center"
+            ></TextView>
+
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        ></TextView>
+
+    <TextView
+        android:id="@+id/tv_sure"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="确定"
+        android:layout_alignParentBottom="true"
+        android:background="@drawable/shape_478dee_bg_4"
+        android:textColor="@color/color_ffffff"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:gravity="center"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginBottom="10dp"
+        android:layout_marginTop="10dp"
+        android:paddingTop="12dp"
+        android:paddingBottom="12dp"
+        android:layout_gravity="center_vertical"
+        ></TextView>
+
+</LinearLayout>

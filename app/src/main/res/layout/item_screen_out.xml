@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal" android:layout_width="match_parent"
+    android:layout_marginTop="10dp"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:id="@+id/tv_name"
+        android:layout_width="70dp"
+        android:layout_height="wrap_content"
+        android:text="收货店仓："
+        android:textColor="@color/color_2a303c"
+        android:textSize="14sp"
+        android:layout_marginLeft="20dp"
+        android:layout_gravity="center_vertical"
+        ></TextView>
+
+    <LinearLayout
+        android:id="@+id/ll_1"
+        android:visibility="visible"
+        android:layout_width="match_parent"
+        android:layout_height="44dp"
+        android:background="@drawable/shape_f5f7fa_bg_4"
+        android:layout_gravity="center_vertical"
+        android:layout_marginRight="20dp"
+        android:layout_marginLeft="10dp"
+        >
+
+        <RelativeLayout
+
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:layout_gravity="center_vertical"
+            >
+
+
+
+            <EditText
+                android:id="@+id/tv_content"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:hint="暂无"
+                android:gravity="center_vertical"
+                android:visibility="gone"
+                android:background="@null"
+                android:textColor="@color/color_2a303c"
+                android:textSize="14sp"
+                android:layout_marginLeft="15dp"
+                android:layout_gravity="center_vertical"
+                ></EditText>
+
+            <TextView
+                android:id="@+id/tv_content2"
+                android:gravity="center_vertical"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="15dp"
+                android:focusableInTouchMode="false"
+                android:background="@null"
+                android:hint="暂无"
+                android:textColor="@color/color_2a303c"
+                android:textSize="14sp"
+                android:visibility="visible"></TextView>
+
+        </RelativeLayout>
+
+
+        <ImageView
+            android:id="@+id/iv_xl"
+            android:layout_width="40dp"
+            android:layout_height="match_parent"
+            android:visibility="visible"
+            android:padding="10dp"
+            android:src="@drawable/sj_down_gray"
+            android:layout_gravity="center_vertical"
+            ></ImageView>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/ll_2"
+        android:layout_width="match_parent"
+        android:layout_height="44dp"
+        android:visibility="gone"
+        android:layout_gravity="center_vertical"
+        android:layout_marginRight="20dp"
+        android:layout_marginLeft="10dp"
+        >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/shape_f5f7fa_bg_4"
+            android:layout_weight="1"
+            >
+
+            <EditText
+                android:id="@+id/et_content"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:hint="暂无"
+                android:layout_weight="1"
+                android:maxLines="1"
+                android:gravity="center_vertical"
+                android:background="@null"
+                android:textColor="@color/color_2a303c"
+                android:textSize="14sp"
+                android:layout_marginLeft="15dp"
+                android:layout_gravity="center_vertical"
+                ></EditText>
+
+
+            <ImageView
+                android:id="@+id/iv_xl2"
+                android:layout_width="40dp"
+                android:layout_height="match_parent"
+                android:visibility="visible"
+                android:padding="10dp"
+                android:src="@drawable/sj_down_gray"
+                android:layout_gravity="center_vertical"
+                ></ImageView>
+
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="-"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:textSize="16sp"
+            android:layout_gravity="center_vertical"
+            ></TextView>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/shape_f5f7fa_bg_4"
+            android:layout_weight="1"
+            >
+
+            <EditText
+                android:id="@+id/et_content2"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:hint="暂无"
+                android:maxLines="1"
+                android:layout_weight="1"
+                android:gravity="center_vertical"
+                android:background="@null"
+                android:textColor="@color/color_2a303c"
+                android:textSize="14sp"
+                android:layout_marginLeft="15dp"
+                android:layout_gravity="center_vertical"
+                ></EditText>
+
+
+            <ImageView
+                android:id="@+id/iv_xl3"
+                android:layout_width="40dp"
+                android:layout_height="match_parent"
+                android:visibility="visible"
+                android:padding="10dp"
+                android:src="@drawable/sj_down_gray"
+                android:layout_gravity="center_vertical"
+                ></ImageView>
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+</LinearLayout>

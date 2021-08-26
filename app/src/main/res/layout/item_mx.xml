@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:id="@+id/tv_dh_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="单号："
+        android:textColor="@color/color_999999"
+        android:textSize="14sp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="12dp"
+        ></TextView>
+
+    <TextView
+        android:id="@+id/tv_dh"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="343359395438509"
+        android:textColor="@color/color_2a303c"
+        android:layout_toRightOf="@+id/tv_dh_title"
+        android:textSize="14sp"
+        android:layout_marginLeft="5dp"
+        android:layout_alignTop="@+id/tv_dh_title"
+        ></TextView>
+
+</RelativeLayout>
