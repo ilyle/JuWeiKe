@@ -112,21 +112,21 @@ public class GodownInventoryOutLogDetailActivity extends BaseMoudleActivity {
             @Override
             public void onScanFinish(String content) {
 
-                if(bean==null)return;
+                if (bean == null) return;
 
-                if(content.equals(bean.getJyalias())){
+                if (content.equals(bean.getJyalias())) {
 
                     /*if(bean.getQty()==0){
                         Toaster.showMsg("下架数量为0");
                         return;
                     }*/
-                    if(bean.getQtyplan()==1) {
+                    if (bean.getQtyplan() == 1) {
                         mProgressDilog.show();
-                        insert(content,bean.getJycw(),bean.getQty());
-                    }else {
-                        showPopup(content,bean.getQtyplan()-bean.getQty());
+                        insert(content, bean.getJycw(), bean.getQty());
+                    } else {
+                        showPopup(content, bean.getQtyplan() - bean.getQty());
                     }
-                }else {
+                } else {
                     showSingleSureDialog("扫描条码与建议条码不一致！", () -> {
                         etScam.setText("");
                         etScam.setSelection(0);
@@ -200,7 +200,7 @@ public class GodownInventoryOutLogDetailActivity extends BaseMoudleActivity {
 
 
     //插入明细
-    private void insert(String tm,String cw,int sl) {
+    private void insert(String tm, String cw, int sl) {
         Map<String, Object> params = new HashMap<>();
         params.put("userid", Integer.parseInt(SharePreferenceUtil.getInstance().getString("userId")));
         params.put("tableid", Integer.parseInt(getIntent().getStringExtra("tableid")));
@@ -218,15 +218,15 @@ public class GodownInventoryOutLogDetailActivity extends BaseMoudleActivity {
                 .execute(new HttpCallBack<CommBean>() {
                     @Override
                     public void onSuccess(CommBean result) {
-                     //   mProgressDilog.dismiss();
+                        //   mProgressDilog.dismiss();
                         etScam.setText("");
                         if (result.getCode() == 200) {
-                           Toaster.showMsg("插入成功！");
-                           playSoundAndVirate();
+                            Toaster.showMsg("插入成功！");
+                            playSoundAndVirate();
                          /*  mBeans.clear();
                            quest();*/
-                         nextCode();
-                        }else {
+                            nextCode();
+                        } else {
                             mProgressDilog.dismiss();
                             Toaster.showMsg(result.getMsg());
                         }
@@ -261,7 +261,7 @@ public class GodownInventoryOutLogDetailActivity extends BaseMoudleActivity {
                         quest();
                         if (result.getCode() == 200) {
 
-                        }else {
+                        } else {
                             mProgressDilog.dismiss();
                             Toaster.showMsg(result.getMsg());
                         }
@@ -299,7 +299,7 @@ public class GodownInventoryOutLogDetailActivity extends BaseMoudleActivity {
                             Toaster.showMsg("提交成功！");
                             setResult(RESULT_OK);
                             finish();
-                        }else {
+                        } else {
                             showSureDialog(result.getMsg(), new OnSureClickListener() {
                                 @Override
                                 public void onSure() {
@@ -320,7 +320,7 @@ public class GodownInventoryOutLogDetailActivity extends BaseMoudleActivity {
 
     //设置数据
     private void setData(OutLogInfoBean.MsgBean msg) {
-        bean=msg;
+        bean = msg;
         llSmtm.setVisibility(msg.getRow1().equals("visible") ? View.VISIBLE : View.GONE);
         llTm.setVisibility(msg.getRow2().equals("visible") ? View.VISIBLE : View.GONE);
         llJycw.setVisibility(msg.getRow3().equals("visible") ? View.VISIBLE : View.GONE);
@@ -335,81 +335,87 @@ public class GodownInventoryOutLogDetailActivity extends BaseMoudleActivity {
 
         ImageLoader.loagImg(this, msg.getImg(), ivImg);
 
-        int djTotal=0;
-        int xjSl=0;
+        int djTotal = 0;
+        int xjSl = 0;
 
-        for(int i=0;i<mBeans.size();i++){
-            djTotal+=mBeans.get(i).getQtyplan();
-            xjSl+=mBeans.get(i).getQty();
+        for (int i = 0; i < mBeans.size(); i++) {
+            djTotal += mBeans.get(i).getQtyplan();
+            xjSl += mBeans.get(i).getQty();
         }
 
-        tvZdjsl.setText("总单据数量："+msg.getTotsoqty());
-     //   tvZsmsl.setText("总扫描数量："+msg.getTotqty());
-        tvZsmsl.setText("下架数量总和："+msg.getTotallqty());
+        tvZdjsl.setText("总单据数量：" + msg.getTotsoqty());
+        //   tvZsmsl.setText("总扫描数量："+msg.getTotqty());
+        tvZsmsl.setText("下架数量总和：" + msg.getTotallqty());
 
     }
 
     //显示弹窗
-    private void showPopup(String tm,int count) {
+    private void showPopup(String tm, int count) {
         AlertDialog dialog = new AlertDialog.Builder(this).setContentView(R.layout.popup_ckxj)
                 .setWidthAndHeight(AppUtils.getScreenWidth(this) * 85 / 100, ViewGroup.LayoutParams.WRAP_CONTENT)
                 .create();
-        dialog.setText(R.id.tv_tm,tm);
-        dialog.setText(R.id.tv_jycw,bean.getJycw());
-        dialog.setText(R.id.et_xjsl,count+"");
+        dialog.setText(R.id.tv_tm, tm);
+        dialog.setText(R.id.tv_jycw, bean.getJycw());
+        dialog.setText(R.id.et_xjsl, count + "");
 
-        EditText etScan=dialog.getView(R.id.et_scam);
-        EditText etSl=dialog.getView(R.id.et_xjsl);
+        // 如果扫描条码自动填写实际储位开关为开，则将建议储位数据自动补充至实际储位
+        boolean autoFill = SharePreferenceUtil.getInstance().getBoolean("autoFill", false);
+        if (autoFill) {
+            dialog.setText(R.id.et_scam, bean.getJycw());
+        }
 
-       setEditextFilter(etScan, new OnScanFinishListener() {
-           @Override
-           public void onScanFinish(String content) {
-               dialog.dismiss();
-               mProgressDilog.show();
-               insert(tm,etScan.getText().toString().trim(), Integer.parseInt(etSl.getText().toString().trim()));
-           }
-       });
+        EditText etScan = dialog.getView(R.id.et_scam);
+        EditText etSl = dialog.getView(R.id.et_xjsl);
+
+        setEditextFilter(etScan, new OnScanFinishListener() {
+            @Override
+            public void onScanFinish(String content) {
+                dialog.dismiss();
+                mProgressDilog.show();
+                insert(tm, etScan.getText().toString().trim(), Integer.parseInt(etSl.getText().toString().trim()));
+            }
+        });
 
         dialog.setOnClickListener(R.id.tv_sure, new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(TextUtils.isEmpty(etScan.getText().toString().trim())){
+                if (TextUtils.isEmpty(etScan.getText().toString().trim())) {
                     Toaster.showMsg("实际储位不能为空");
                     return;
                 }
 
-                if(!etScan.getText().toString().trim().equals(bean.getJycw())){
+                if (!etScan.getText().toString().trim().equals(bean.getJycw())) {
                     Toaster.showMsg("实际储位与建议储位不一致");
                     return;
                 }
                 dialog.dismiss();
                 mProgressDilog.show();
-                insert(tm,etScan.getText().toString().trim(), Integer.parseInt(etSl.getText().toString().trim()));
+                insert(tm, etScan.getText().toString().trim(), Integer.parseInt(etSl.getText().toString().trim()));
             }
         });
 
         dialog.show();
     }
 
-    @OnClick({R.id.iv_common_left, R.id.rl_expand,R.id.tv_next,R.id.tv_sure})
+    @OnClick({R.id.iv_common_left, R.id.rl_expand, R.id.tv_next, R.id.tv_sure})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.iv_common_left:
                 finish();
                 break;
             case R.id.tv_next:
-                if(bean==null){
+                if (bean == null) {
                     Toaster.showMsg("网络错误！");
                     return;
                 }
-                if(bean.getIfover().equals("Y")){
-                   showSureDialog("单子已扫完，是否提交？", new OnSureClickListener() {
-                       @Override
-                       public void onSure() {
-                           mProgressDilog.show();
-                           commit();
-                       }
-                   });
+                if (bean.getIfover().equals("Y")) {
+                    showSureDialog("单子已扫完，是否提交？", new OnSureClickListener() {
+                        @Override
+                        public void onSure() {
+                            mProgressDilog.show();
+                            commit();
+                        }
+                    });
                     return;
                 }
                 mProgressDilog.show();
@@ -417,7 +423,7 @@ public class GodownInventoryOutLogDetailActivity extends BaseMoudleActivity {
                 break;
             case R.id.tv_sure:
 
-                if(mBeans.size()==1){
+                if (mBeans.size() == 1) {
                     Toaster.showMsg("请先插入再提交");
                     return;
                 }
@@ -427,11 +433,11 @@ public class GodownInventoryOutLogDetailActivity extends BaseMoudleActivity {
                     return;
                 }*/
                 mProgressDilog.show();
-               commit();
+                commit();
                 break;
             case R.id.rl_expand:
                 if (llMore.getVisibility() == View.GONE) {
-                    changeExpand(true,"收起信息",R.drawable.sj_up_blue);
+                    changeExpand(true, "收起信息", R.drawable.sj_up_blue);
                 } else {
                     changeExpand(false, "更多信息", R.drawable.sj_down_blue);
                 }
@@ -442,8 +448,8 @@ public class GodownInventoryOutLogDetailActivity extends BaseMoudleActivity {
 
 
     //折叠收起切换
-    private void changeExpand(boolean visaible,String text,int resId){
-        llMore.setVisibility(visaible?View.VISIBLE:View.GONE);
+    private void changeExpand(boolean visaible, String text, int resId) {
+        llMore.setVisibility(visaible ? View.VISIBLE : View.GONE);
         tvExpand.setText(text);
 
         Drawable drawableLeft = getResources().getDrawable(

@@ -41,6 +41,8 @@ public class SystemSettingActivity extends BaseMoudleActivity {
     RelativeLayout rlCommonTitle;
     @BindView(R.id.iv_switch)
     ImageView ivSwitch;
+    @BindView(R.id.iv_switch_fill)
+    ImageView ivSwitchFill;
     @BindView(R.id.tv_sbbs)
     TextView tvSbbs;
     @BindView(R.id.et_erp)
@@ -51,6 +53,7 @@ public class SystemSettingActivity extends BaseMoudleActivity {
     TextView tvBbh;
 
     private boolean isOpen;
+    private boolean isFill; // 扫描条码自动填写实际储位
 
     @Override
     public int getLayoutId() {
@@ -69,13 +72,15 @@ public class SystemSettingActivity extends BaseMoudleActivity {
         }
 
         isOpen = SharePreferenceUtil.getInstance().getBoolean("autoUpdate", false);
+        isFill = SharePreferenceUtil.getInstance().getBoolean("autoFill", false);
         ivSwitch.setImageResource(isOpen ? R.drawable.cb_check : R.drawable.cb_uncheck);
+        ivSwitchFill.setImageResource(isFill ? R.drawable.cb_check : R.drawable.cb_uncheck);
 
 
         tvBbh.setText("V" + UpdateManager.getInatance().getVersionName(this));
     }
 
-    @OnClick({R.id.iv_switch, R.id.iv_common_left, R.id.tv_sure})
+    @OnClick({R.id.iv_switch, R.id.iv_switch_fill, R.id.iv_common_left, R.id.tv_sure})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.iv_common_left:
@@ -86,13 +91,18 @@ public class SystemSettingActivity extends BaseMoudleActivity {
                 ivSwitch.setImageResource(isOpen ? R.drawable.cb_check : R.drawable.cb_uncheck);
                 SharePreferenceUtil.getInstance().saveBoolean("autoUpdate", isOpen).commit();
                 break;
+            case R.id.iv_switch_fill:
+                isFill = !isFill;
+                ivSwitchFill.setImageResource(isFill ? R.drawable.cb_check : R.drawable.cb_uncheck);
+                SharePreferenceUtil.getInstance().saveBoolean("autoFill", isFill).commit();
+                break;
             case R.id.tv_sure:
                 if (TextUtils.isEmpty(etErp.getText().toString().trim())) {
                     Toaster.showMsg("请输入ERP地址");
                     return;
                 }
                 mProgressDilog.show();
-              //  Contasts.BASE_URL = "http://" + etErp.getText().toString().trim() + "/MDInfaceSystem96cs/servlet/doserverdata";
+                //  Contasts.BASE_URL = "http://" + etErp.getText().toString().trim() + "/MDInfaceSystem96cs/servlet/doserverdata";
                 Contasts.BASE_URL = etErp.getText().toString().trim();
 
                 try {
