@@ -75,7 +75,23 @@
                         android:paddingLeft="15dp"
                         android:singleLine="true"
                         android:textColor="@color/color_2a303c"
-                        android:textSize="14sp"></EditText>
+                        android:textSize="14sp" />
+
+                    <TextView
+                        android:id="@+id/tv_yjxj"
+                        android:layout_width="80dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginRight="10dp"
+                        android:background="@drawable/shape_478dee_bg_4"
+                        android:gravity="center"
+                        android:paddingLeft="12dp"
+                        android:paddingTop="5dp"
+                        android:paddingRight="12dp"
+                        android:paddingBottom="5dp"
+                        android:text="一键下架"
+                        android:textColor="@color/color_ffffff"
+                        android:textSize="14sp" />
 
                     <ImageView
                         android:layout_width="wrap_content"
@@ -83,7 +99,7 @@
                         android:layout_gravity="center_vertical"
                         android:layout_marginRight="10dp"
                         android:src="@drawable/sj_down_gray"
-                        android:visibility="gone"></ImageView>
+                        android:visibility="gone" />
 
                 </LinearLayout>
 
@@ -123,11 +139,12 @@
 
                     <TextView
                         android:id="@+id/tv_next"
-                        android:layout_width="wrap_content"
+                        android:layout_width="80dp"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
                         android:layout_marginRight="10dp"
                         android:background="@drawable/shape_478dee_bg_4"
+                        android:gravity="center"
                         android:paddingLeft="12dp"
                         android:paddingTop="5dp"
                         android:paddingRight="12dp"
@@ -445,7 +462,7 @@
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rc_view"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"></androidx.recyclerview.widget.RecyclerView>
+                android:layout_height="match_parent"/>
 
 
         </LinearLayout>

@@ -1,66 +1,62 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="horizontal" android:layout_width="match_parent"
     android:id="@+id/ll_root"
-    android:background="@color/main_bg"
+    android:layout_width="match_parent"
+    android:layout_height="44dp"
     android:layout_marginLeft="20dp"
     android:layout_marginRight="20dp"
-    android:layout_height="44dp">
+    android:background="@color/main_bg"
+    android:orientation="horizontal">
 
     <TextView
         android:id="@+id/tv_xh"
-        android:layout_width="40dp"
+        android:layout_width="28dp"
         android:layout_height="wrap_content"
-        android:text="序号"
-        android:gravity="center_horizontal"
-        android:textColor="@color/color_2a303c"
         android:layout_gravity="center_vertical"
-        android:textSize="14sp"
-        ></TextView>
+        android:gravity="center_horizontal"
+        android:text="序号"
+        android:textColor="@color/color_2a303c"
+        android:textSize="14sp" />
 
     <TextView
         android:id="@+id/tv_cw"
-        android:layout_width="40dp"
+        android:layout_width="80dp"
         android:layout_height="wrap_content"
-        android:text="储位"
-        android:gravity="center_horizontal"
-        android:textColor="@color/color_2a303c"
         android:layout_gravity="center_vertical"
-        android:textSize="14sp"
-        ></TextView>
+        android:gravity="center_horizontal"
+        android:text="储位"
+        android:textColor="@color/color_2a303c"
+        android:textSize="14sp" />
 
     <TextView
         android:id="@+id/tv_tm"
         android:layout_width="50dp"
         android:layout_height="wrap_content"
-        android:text="条码"
+        android:layout_gravity="center_vertical"
         android:layout_weight="1"
         android:gravity="center_horizontal"
+        android:text="条码"
         android:textColor="@color/color_2a303c"
-        android:layout_gravity="center_vertical"
-        android:textSize="14sp"
-        ></TextView>
+        android:textSize="14sp" />
 
     <TextView
         android:id="@+id/tv_djsl"
-        android:layout_width="70dp"
+        android:layout_width="60dp"
         android:layout_height="wrap_content"
-        android:text="单据数量"
-        android:gravity="center_horizontal"
-        android:textColor="@color/color_2a303c"
         android:layout_gravity="center_vertical"
-        android:textSize="14sp"
-        ></TextView>
+        android:gravity="center_horizontal"
+        android:text="单据数量"
+        android:textColor="@color/color_2a303c"
+        android:textSize="14sp" />
 
     <TextView
         android:id="@+id/tv_xjsl"
-        android:layout_width="70dp"
+        android:layout_width="60dp"
         android:layout_height="wrap_content"
-        android:text="下架数量"
-        android:gravity="center_horizontal"
-        android:textColor="@color/color_2a303c"
         android:layout_gravity="center_vertical"
-        android:textSize="14sp"
-        ></TextView>
+        android:gravity="center_horizontal"
+        android:text="下架数量"
+        android:textColor="@color/color_2a303c"
+        android:textSize="14sp" />
 
-    </LinearLayout>
+</LinearLayout>

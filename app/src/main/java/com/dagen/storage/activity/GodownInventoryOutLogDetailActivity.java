@@ -1,9 +1,8 @@
 package com.dagen.storage.activity;
 
-import android.content.Intent;
 import android.graphics.drawable.Drawable;
-import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
@@ -21,10 +20,10 @@ import com.dagen.storage.bean.CommBean;
 import com.dagen.storage.bean.OutLogInfoBean;
 import com.dagen.storage.support.Contasts;
 import com.dagen.storage.support.OnScanFinishListener;
-import com.dagen.storage.support.OnScanFinishListener2;
 import com.dagen.storage.support.OnSureClickListener;
 import com.dagen.storage.utils.AppUtils;
 import com.dagen.storage.utils.ImageLoader;
+import com.dagen.storage.utils.KeyboardUtils;
 import com.dagen.storage.utils.Toaster;
 import com.wanlv365.lawyer.baselibrary.HttpUtils;
 import com.wanlv365.lawyer.baselibrary.utils.SharePreferenceUtil;
@@ -39,7 +38,6 @@ import java.util.List;
 import java.util.Map;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 //出库下架单详情页
@@ -76,6 +74,8 @@ public class GodownInventoryOutLogDetailActivity extends BaseMoudleActivity {
     RelativeLayout rlExpand;
     @BindView(R.id.tv_tm)
     TextView tvTm;
+    @BindView(R.id.tv_pm)
+    TextView tvPm; // 品名
     @BindView(R.id.tv_cw)
     TextView tvCw;
     @BindView(R.id.tv_sl)
@@ -92,6 +92,8 @@ public class GodownInventoryOutLogDetailActivity extends BaseMoudleActivity {
     TextView tvZdjsl;
     @BindView(R.id.tv_zsmsl)
     TextView tvZsmsl;
+    @BindView(R.id.tv_yjxj)
+    TextView tvYjxj; // 一键下架
 
     private List<OutLogInfoBean.ItemBean> mBeans = new ArrayList<>();
     private OutLogInfoBean.MsgBean bean;
@@ -129,7 +131,9 @@ public class GodownInventoryOutLogDetailActivity extends BaseMoudleActivity {
                 } else {
                     showSingleSureDialog("扫描条码与建议条码不一致！", () -> {
                         etScam.setText("");
-                        etScam.setSelection(0);
+                        etScam.postDelayed(() -> {
+                            etScam.requestFocus();
+                        }, 500);
                     });
                     playSoundAndVirate();
 
@@ -158,6 +162,15 @@ public class GodownInventoryOutLogDetailActivity extends BaseMoudleActivity {
                     holder.setText(R.id.tv_tm, item.getAlias());
                     holder.setText(R.id.tv_djsl, item.getQtyplan() + "");
                     holder.setText(R.id.tv_xjsl, item.getQty() + "");
+
+                    // 长按
+                    holder.setOnIntemLongClickListener(new View.OnLongClickListener() {
+                        @Override
+                        public boolean onLongClick(View v) {
+                            showModifyDialog(item);
+                            return false;
+                        }
+                    });
                 }
             }
 
@@ -165,6 +178,110 @@ public class GodownInventoryOutLogDetailActivity extends BaseMoudleActivity {
         mProgressDilog.show();
         quest();
     }
+
+    private void showModifyDialog(OutLogInfoBean.ItemBean item) {
+        AlertDialog dialog = new AlertDialog.Builder(this).setContentView(R.layout.popup_ckxj_modify)
+                .setWidthAndHeight(AppUtils.getScreenWidth(this) * 85 / 100, ViewGroup.LayoutParams.WRAP_CONTENT)
+                .create();
+        dialog.setText(R.id.tv_name1, item.getName1());
+        dialog.setText(R.id.tv_name2, item.getName2());
+        dialog.setText(R.id.tv_name3, item.getName3());
+        dialog.setText(R.id.tv_value1, item.getValue1());
+        dialog.setText(R.id.tv_value2, item.getValue2());
+        dialog.setText(R.id.tv_value3, item.getValue3());
+        dialog.setOnClickListener(R.id.tv_sure, view -> {
+            dialog.dismiss();
+            modifyItem(item.getItemid(), item.getQty());
+        });
+        dialog.setOnClickListener(R.id.tv_delete, view -> {
+            dialog.dismiss();
+            deleteItem(item.getQty());
+        });
+        dialog.show();
+    }
+
+    /**
+     * 修改明细明细
+     *
+     * @param itemid 物品条码
+     * @param qty    数量
+     */
+    private void modifyItem(int itemid, int qty) {
+        mProgressDilog.show();
+        Map<String, Object> params = new HashMap<>();
+        params.put("userid", Integer.parseInt(SharePreferenceUtil.getInstance().getString("userId")));
+        params.put("tableid", Integer.parseInt(getIntent().getStringExtra("tableid")));
+        params.put("rowid", getIntent().getIntExtra("id", 0));
+        params.put("itemid", itemid);
+        params.put("qty", qty);
+        Map<String, Object> data = new HashMap<>();
+        data.put("method", "boxno_deletecwitem_ard");
+        data.put("params", params);
+        HttpUtils.with(this)
+                .url(Contasts.BASE_URL)
+                .doJsonPost()
+                .setJson(gson.toJson(data))
+                .execute(new HttpCallBack<CommBean>() {
+                    @Override
+                    public void onSuccess(CommBean result) {
+                        mProgressDilog.dismiss();
+                        if (result.getCode() == 200) {
+                            // 刷新界面
+                            quest();
+                        } else {
+                            showSingleSureDialog(result.getMsg(), null);
+                        }
+                    }
+
+                    @Override
+                    public void onError(Exception e) {
+                        super.onError(e);
+                        mProgressDilog.dismiss();
+                        showSingleSureDialog(e.getMessage(), null);
+                    }
+                });
+    }
+
+    /**
+     * 删除明细
+     *
+     * @param itemid 条码
+     */
+    private void deleteItem(int itemid) {
+        mProgressDilog.show();
+        Map<String, Object> params = new HashMap<>();
+        params.put("userid", Integer.parseInt(SharePreferenceUtil.getInstance().getString("userId")));
+        params.put("tableid", Integer.parseInt(getIntent().getStringExtra("tableid")));
+        params.put("rowid", getIntent().getIntExtra("id", 0));
+        params.put("itemid", itemid);
+        Map<String, Object> data = new HashMap<>();
+        data.put("method", "boxno_deletecwitem_ard");
+        data.put("params", params);
+        HttpUtils.with(this)
+                .url(Contasts.BASE_URL)
+                .doJsonPost()
+                .setJson(gson.toJson(data))
+                .execute(new HttpCallBack<CommBean>() {
+                    @Override
+                    public void onSuccess(CommBean result) {
+                        mProgressDilog.dismiss();
+                        if (result.getCode() == 200) {
+                            // 刷新界面
+                            quest();
+                        } else {
+                            showSingleSureDialog(result.getMsg(), null);
+                        }
+                    }
+
+                    @Override
+                    public void onError(Exception e) {
+                        super.onError(e);
+                        mProgressDilog.dismiss();
+                        showSingleSureDialog(e.getMessage(), null);
+                    }
+                });
+    }
+
 
     private void quest() {
         Map<String, Object> params = new HashMap<>();
@@ -183,6 +300,7 @@ public class GodownInventoryOutLogDetailActivity extends BaseMoudleActivity {
                     public void onSuccess(OutLogInfoBean result) {
                         mProgressDilog.dismiss();
                         if (result.getCode() == 200) {
+                            mBeans.clear();
                             mBeans.add(new OutLogInfoBean.ItemBean());
                             mBeans.addAll(result.getItem());
                             rcView.getAdapter().notifyDataSetChanged();
@@ -199,8 +317,10 @@ public class GodownInventoryOutLogDetailActivity extends BaseMoudleActivity {
     }
 
 
-    //插入明细
+    // 插入明细
+    // 条码、储位、数量
     private void insert(String tm, String cw, int sl) {
+        mProgressDilog.show();
         Map<String, Object> params = new HashMap<>();
         params.put("userid", Integer.parseInt(SharePreferenceUtil.getInstance().getString("userId")));
         params.put("tableid", Integer.parseInt(getIntent().getStringExtra("tableid")));
@@ -218,8 +338,11 @@ public class GodownInventoryOutLogDetailActivity extends BaseMoudleActivity {
                 .execute(new HttpCallBack<CommBean>() {
                     @Override
                     public void onSuccess(CommBean result) {
-                        //   mProgressDilog.dismiss();
+                        mProgressDilog.dismiss();
                         etScam.setText("");
+                        etScam.postDelayed(() -> {
+                            etScam.requestFocus();
+                        }, 500);
                         if (result.getCode() == 200) {
                             Toaster.showMsg("插入成功！");
                             playSoundAndVirate();
@@ -227,8 +350,7 @@ public class GodownInventoryOutLogDetailActivity extends BaseMoudleActivity {
                            quest();*/
                             nextCode();
                         } else {
-                            mProgressDilog.dismiss();
-                            Toaster.showMsg(result.getMsg());
+                            showSingleSureDialog(result.getMsg(), null);
                         }
                     }
 
@@ -332,6 +454,7 @@ public class GodownInventoryOutLogDetailActivity extends BaseMoudleActivity {
         tvZdzjs.setText(msg.getQtyplan() + "");
         tvZdzks.setText(msg.getTotqty() + "");
         tvBz.setText(msg.getDescription());
+        tvPm.setText(msg.getMptvalue()); // 品名
 
         ImageLoader.loagImg(this, msg.getImg(), ivImg);
 
@@ -397,7 +520,7 @@ public class GodownInventoryOutLogDetailActivity extends BaseMoudleActivity {
         dialog.show();
     }
 
-    @OnClick({R.id.iv_common_left, R.id.rl_expand, R.id.tv_next, R.id.tv_sure})
+    @OnClick({R.id.iv_common_left, R.id.rl_expand, R.id.tv_next, R.id.tv_sure, R.id.tv_yjxj})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.iv_common_left:
@@ -441,6 +564,10 @@ public class GodownInventoryOutLogDetailActivity extends BaseMoudleActivity {
                 } else {
                     changeExpand(false, "更多信息", R.drawable.sj_down_blue);
                 }
+                break;
+            // 一键下架
+            case R.id.tv_yjxj:
+                insert(bean.getJyalias(), bean.getJycw(), bean.getQty());
                 break;
 
         }

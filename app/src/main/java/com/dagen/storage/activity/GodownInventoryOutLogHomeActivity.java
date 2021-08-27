@@ -246,7 +246,7 @@ public class GodownInventoryOutLogHomeActivity extends BaseMoudleActivity {
 
     private void onItemClick(View v, HomeListBean.MsgBean item) {
         switch (getIntent().getStringExtra("tableid")) {
-            case "24408":
+            case "24408": // 入库上架单
             case "24622": // 归还上架单
             case "24628": // 退货上架单
             {

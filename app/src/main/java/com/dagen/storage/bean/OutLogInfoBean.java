@@ -90,6 +90,7 @@ public class OutLogInfoBean {
         private int lock_status;
         private String description;
         private String ifover;
+        private String mptvalue; // 建议条码的品名
 
         public int getLock_status() {
             return lock_status;
@@ -218,21 +219,38 @@ public class OutLogInfoBean {
         public void setDescription(String description) {
             this.description = description;
         }
+
+        public String getMptvalue() {
+            return mptvalue;
+        }
+
+        public void setMptvalue(String mptvalue) {
+            this.mptvalue = mptvalue;
+        }
     }
 
     public static class ItemBean {
         /**
+         * itemid: 806,
          * alias : 3190980611110
          * cw : B
          * qty : 0
          * qtyplan : 1
          */
 
-        private String alias;
-        private String cw;
+        private int itemid; // 明细id
+        private String alias; // 条码
+        private String cw; // 储位
         private int qty;
         private int qtyplan;
         private int qtybook;
+        private String mptvalue; // 品名
+        private String name1;
+        private String value1;
+        private String name2;
+        private String value2;
+        private String name3;
+        private String value3;
 
         public int getQtybook() {
             return qtybook;
@@ -272,6 +290,70 @@ public class OutLogInfoBean {
 
         public void setQtyplan(int qtyplan) {
             this.qtyplan = qtyplan;
+        }
+
+        public String getMptvalue() {
+            return mptvalue;
+        }
+
+        public void setMptvalue(String mptvalue) {
+            this.mptvalue = mptvalue;
+        }
+
+        public int getItemid() {
+            return itemid;
+        }
+
+        public void setItemid(int itemid) {
+            this.itemid = itemid;
+        }
+
+        public String getName1() {
+            return name1;
+        }
+
+        public void setName1(String name1) {
+            this.name1 = name1;
+        }
+
+        public String getValue1() {
+            return value1;
+        }
+
+        public void setValue1(String value1) {
+            this.value1 = value1;
+        }
+
+        public String getName2() {
+            return name2;
+        }
+
+        public void setName2(String name2) {
+            this.name2 = name2;
+        }
+
+        public String getValue2() {
+            return value2;
+        }
+
+        public void setValue2(String value2) {
+            this.value2 = value2;
+        }
+
+        public String getName3() {
+            return name3;
+        }
+
+        public void setName3(String name3) {
+            this.name3 = name3;
+        }
+
+        public String getValue3() {
+            return value3;
+        }
+
+        public void setValue3(String value3) {
+            this.value3 = value3;
         }
     }
 }
