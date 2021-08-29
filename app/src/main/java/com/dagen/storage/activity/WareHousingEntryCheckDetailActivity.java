@@ -275,15 +275,18 @@ public class WareHousingEntryCheckDetailActivity extends BaseMoudleActivity {
                     @Override
                     public void onSuccess(CommBean result) {
                         etScam.setText("");
+                        etScam.postDelayed(() -> {
+                            etScam.requestFocus();
+                        }, 500);
                         //   mProgressDilog.dismiss();
                         if (result.getCode() == 200) {
                             Toaster.showMsg("插入成功！");
-                            playSoundAndVirate();
+                            playSuccessTips();
                             mBeans.clear();
                             quest();
                         } else {
                             mProgressDilog.dismiss();
-                            Toaster.showMsg(result.getMsg());
+                            showErrorTipsDialog(result.getMsg(), null);
                         }
                     }
 
@@ -291,6 +294,7 @@ public class WareHousingEntryCheckDetailActivity extends BaseMoudleActivity {
                     public void onError(Exception e) {
                         super.onError(e);
                         mProgressDilog.dismiss();
+                        showErrorTipsDialog(e.getMessage(), null);
                     }
                 });
     }

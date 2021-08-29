@@ -34,6 +34,7 @@ import java.util.Map;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
 import butterknife.BindView;
 import butterknife.OnClick;
 
@@ -68,8 +69,8 @@ public class WareHousingEntryMoveDetailActivity extends BaseMoudleActivity {
 
     private List<OutLogInfoBean.ItemBean> mBeans = new ArrayList<>();
     private OutLogInfoBean.MsgBean bean;
-    private String transfertype="out";//in/out(上架转移，下架转移)
-    private int lock_status=1;// 1：下架中，2：上架中
+    private String transfertype = "out";//in/out(上架转移，下架转移)
+    private int lock_status = 1;// 1：下架中，2：上架中
 
     @Override
     public int getLayoutId() {
@@ -83,7 +84,7 @@ public class WareHousingEntryMoveDetailActivity extends BaseMoudleActivity {
 
         etScam.requestFocus();
 
-        tvSure.setText(lock_status==1?"下架完成":"上架完成");
+        tvSure.setText(lock_status == 1 ? "下架完成" : "上架完成");
 
         setEditextFilter(etScam, new OnScanFinishListener() {
             @Override
@@ -110,8 +111,8 @@ public class WareHousingEntryMoveDetailActivity extends BaseMoudleActivity {
                     holder.setText(R.id.tv_tm, item.getAlias());
                     holder.setText(R.id.tv_djsl, item.getQtyplan() + "");
                     holder.setText(R.id.tv_xjsl, item.getQty() + "");
-                }else {
-                    holder.setText(R.id.tv_xjsl, lock_status==1?"下架数量":"上架数量");
+                } else {
+                    holder.setText(R.id.tv_xjsl, lock_status == 1 ? "下架数量" : "上架数量");
                 }
 
                 holder.setOnIntemClickListener(new View.OnClickListener() {
@@ -147,26 +148,26 @@ public class WareHousingEntryMoveDetailActivity extends BaseMoudleActivity {
                         if (result.getCode() == 200) {
 
 
-                            lock_status=result.getMsg().getLock_status();
+                            lock_status = result.getMsg().getLock_status();
 
-                            tvSure.setText(lock_status==1?"下架完成":"上架完成");
+                            tvSure.setText(lock_status == 1 ? "下架完成" : "上架完成");
 
-                            int count=0;
+                            int count = 0;
 
-                            if(lock_status==1){
-                                tvZsmsl.setText("下架数量总和："+count);
-                            }else {
-                                tvZsmsl.setText("上架数量总和："+count);
+                            if (lock_status == 1) {
+                                tvZsmsl.setText("下架数量总和：" + count);
+                            } else {
+                                tvZsmsl.setText("上架数量总和：" + count);
                             }
 
-                            for(int i=0;i<result.getItem().size();i++){
-                                count+=result.getItem().get(i).getQty();
+                            for (int i = 0; i < result.getItem().size(); i++) {
+                                count += result.getItem().get(i).getQty();
                             }
 
-                            if(lock_status==1){
-                                tvZsmsl.setText("下架数量总和："+count);
-                            }else {
-                                tvZsmsl.setText("上架数量总和："+count);
+                            if (lock_status == 1) {
+                                tvZsmsl.setText("下架数量总和：" + count);
+                            } else {
+                                tvZsmsl.setText("上架数量总和：" + count);
                             }
 
 
@@ -200,8 +201,8 @@ public class WareHousingEntryMoveDetailActivity extends BaseMoudleActivity {
         Map<String, Object> data = new HashMap<>();
         data.put("method", "pdacw_getdocnoscan");
         data.put("transfertype", transfertype);
-      //  data.put("params--userid", Integer.parseInt(SharePreferenceUtil.getInstance().getString("userId")));
-      //  data.put("params--code", Integer.parseInt(SharePreferenceUtil.getInstance().getString("userId")));
+        //  data.put("params--userid", Integer.parseInt(SharePreferenceUtil.getInstance().getString("userId")));
+        //  data.put("params--code", Integer.parseInt(SharePreferenceUtil.getInstance().getString("userId")));
         data.put("params", params);
         HttpUtils.with(this)
                 .url(Contasts.BASE_URL)
@@ -211,15 +212,18 @@ public class WareHousingEntryMoveDetailActivity extends BaseMoudleActivity {
                     @Override
                     public void onSuccess(CommBean result) {
                         etScam.setText("");
+                        etScam.postDelayed(() -> {
+                            etScam.requestFocus();
+                        }, 500);
                         //   mProgressDilog.dismiss();
                         if (result.getCode() == 200) {
                             Toaster.showMsg("插入成功！");
-                            playSoundAndVirate();
+                            playSuccessTips();
                             mBeans.clear();
                             quest();
                         } else {
                             mProgressDilog.dismiss();
-                            Toaster.showMsg(result.getMsg());
+                            showErrorTipsDialog(result.getMsg(), null);
                         }
                     }
 
@@ -227,6 +231,7 @@ public class WareHousingEntryMoveDetailActivity extends BaseMoudleActivity {
                     public void onError(Exception e) {
                         super.onError(e);
                         mProgressDilog.dismiss();
+                        showErrorTipsDialog(e.getMessage(), null);
                     }
                 });
     }
@@ -265,25 +270,25 @@ public class WareHousingEntryMoveDetailActivity extends BaseMoudleActivity {
                 });
     }
 
-                            //提交
-                            private void commit() {
-                                Map<String, Object> params = new HashMap<>();
-                                params.put("userid", Integer.parseInt(SharePreferenceUtil.getInstance().getString("userId")));
-                                params.put("tableid", Integer.parseInt(getIntent().getStringExtra("tableid")));
-                                params.put("rowid", getIntent().getIntExtra("id", 0));
-                                Map<String, Object> data = new HashMap<>();
-                                data.put("method", "pdacw_submit");
-                                data.put("params", params);
-                                HttpUtils.with(this)
-                                        .url(Contasts.BASE_URL)
-                                        .doJsonPost()
-                                        .setJson(gson.toJson(data))
-                                        .execute(new HttpCallBack<CommBean>() {
-                                            @Override
-                                            public void onSuccess(CommBean result) {
-                                                mProgressDilog.dismiss();
-                                                etScam.setText("");
-                                                if (result.getCode() == 200) {
+    //提交
+    private void commit() {
+        Map<String, Object> params = new HashMap<>();
+        params.put("userid", Integer.parseInt(SharePreferenceUtil.getInstance().getString("userId")));
+        params.put("tableid", Integer.parseInt(getIntent().getStringExtra("tableid")));
+        params.put("rowid", getIntent().getIntExtra("id", 0));
+        Map<String, Object> data = new HashMap<>();
+        data.put("method", "pdacw_submit");
+        data.put("params", params);
+        HttpUtils.with(this)
+                .url(Contasts.BASE_URL)
+                .doJsonPost()
+                .setJson(gson.toJson(data))
+                .execute(new HttpCallBack<CommBean>() {
+                    @Override
+                    public void onSuccess(CommBean result) {
+                        mProgressDilog.dismiss();
+                        etScam.setText("");
+                        if (result.getCode() == 200) {
                           /*  mBeans.clear();
                             quest();*/
                             Toaster.showMsg("提交成功！");
@@ -327,7 +332,7 @@ public class WareHousingEntryMoveDetailActivity extends BaseMoudleActivity {
                         etScam.setText("");
                         if (result.getCode() == 200) {
 
-                            transfertype="in";
+                            transfertype = "in";
 
                             mBeans.clear();
                             quest();
@@ -366,10 +371,10 @@ public class WareHousingEntryMoveDetailActivity extends BaseMoudleActivity {
 
         etSl.setSelection(etSl.getText().length());
 
-        if(getIntent().getStringExtra("tableid").equals("24404")){
+        if (getIntent().getStringExtra("tableid").equals("24404")) {
             ll_jycw.setVisibility(View.GONE);
             tv_sl_title.setText("数量: ");
-        }else {
+        } else {
             getCw(tm, tvCw);
         }
 
@@ -410,7 +415,7 @@ public class WareHousingEntryMoveDetailActivity extends BaseMoudleActivity {
 
 
         EditText etSl = dialog.getView(R.id.et_sl);
-        etSl.setText(bean.getQty()+"");
+        etSl.setText(bean.getQty() + "");
         etSl.setSelection(etSl.length());
 
         dialog.setOnClickListener(R.id.tv_sure, new View.OnClickListener() {
@@ -474,9 +479,9 @@ public class WareHousingEntryMoveDetailActivity extends BaseMoudleActivity {
                     return;
                 }
                 mProgressDilog.show();
-                if(lock_status==1){
+                if (lock_status == 1) {
                     lock();
-                }else {
+                } else {
                     commit();
                 }
                 break;

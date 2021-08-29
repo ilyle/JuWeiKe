@@ -298,7 +298,7 @@ public class GodownInventoryOutLogDetailActivity extends BaseMoudleActivity {
                         }, 500);
                         if (result.getCode() == 200) {
                             Toaster.showMsg("插入成功！");
-                            playSoundAndVirate();
+                            playSuccessTips();
                          /*  mBeans.clear();
                            quest();*/
                             nextCode();

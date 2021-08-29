@@ -110,21 +110,7 @@ public class MainActivity extends BaseMoudleActivity {
                                 Intent intent = null;
                                 switch (item.getType()) {
                                     case "cwup":
-                                        intent = new Intent(MainActivity.this, GodownInventoryOutLogHomeActivity.class);
-                                        intent.putExtra("tableid", item.getTableid());
-                                        intent.putExtra("type", item.getType());
-                                        intent.putExtra("isAdd", item.getIs_permitadd());
-                                        intent.putExtra("title", item.getName());
-                                        startActivity(intent);
-                                        break;
                                     case "standard":
-                                        intent = new Intent(MainActivity.this, GodownInventoryOutLogHomeActivity.class);
-                                        intent.putExtra("tableid", item.getTableid());
-                                        intent.putExtra("type", item.getType());
-                                        intent.putExtra("isAdd", item.getIs_permitadd());
-                                        intent.putExtra("title", item.getName());
-                                        startActivity(intent);
-                                        break;
                                     case "cwdown":
                                         intent = new Intent(MainActivity.this, GodownInventoryOutLogHomeActivity.class);
                                         intent.putExtra("tableid", item.getTableid());
