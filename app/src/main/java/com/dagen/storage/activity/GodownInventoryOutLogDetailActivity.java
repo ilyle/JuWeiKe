@@ -2,7 +2,6 @@ package com.dagen.storage.activity;
 
 import android.graphics.drawable.Drawable;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
@@ -23,7 +22,7 @@ import com.dagen.storage.support.OnScanFinishListener;
 import com.dagen.storage.support.OnSureClickListener;
 import com.dagen.storage.utils.AppUtils;
 import com.dagen.storage.utils.ImageLoader;
-import com.dagen.storage.utils.KeyboardUtils;
+import com.dagen.storage.utils.NetworkHelper;
 import com.dagen.storage.utils.Toaster;
 import com.wanlv365.lawyer.baselibrary.HttpUtils;
 import com.wanlv365.lawyer.baselibrary.utils.SharePreferenceUtil;
@@ -129,13 +128,13 @@ public class GodownInventoryOutLogDetailActivity extends BaseMoudleActivity {
                         showPopup(content, bean.getQtyplan() - bean.getQty());
                     }
                 } else {
-                    showSingleSureDialog("扫描条码与建议条码不一致！", () -> {
+                    showErrorTipsDialog("扫描条码与建议条码不一致！", () -> {
                         etScam.setText("");
                         etScam.postDelayed(() -> {
                             etScam.requestFocus();
                         }, 500);
                     });
-                    playSoundAndVirate();
+                    playFailedTips();
 
                     // Toaster.showMsg("扫描条码与建议条码不一致！");
                 }
@@ -164,12 +163,11 @@ public class GodownInventoryOutLogDetailActivity extends BaseMoudleActivity {
                     holder.setText(R.id.tv_xjsl, item.getQty() + "");
 
                     // 长按
-                    holder.setOnIntemLongClickListener(new View.OnLongClickListener() {
-                        @Override
-                        public boolean onLongClick(View v) {
-                            showModifyDialog(item);
-                            return false;
-                        }
+                    holder.setOnIntemLongClickListener(v -> {
+                        showItemModifyDialog(item,
+                                (qty) -> modifyItem(item.getItemid(), qty),
+                                () -> deleteItem(item.getItemid()));
+                        return false;
                     });
                 }
             }
@@ -177,27 +175,6 @@ public class GodownInventoryOutLogDetailActivity extends BaseMoudleActivity {
         });
         mProgressDilog.show();
         quest();
-    }
-
-    private void showModifyDialog(OutLogInfoBean.ItemBean item) {
-        AlertDialog dialog = new AlertDialog.Builder(this).setContentView(R.layout.popup_ckxj_modify)
-                .setWidthAndHeight(AppUtils.getScreenWidth(this) * 85 / 100, ViewGroup.LayoutParams.WRAP_CONTENT)
-                .create();
-        dialog.setText(R.id.tv_name1, item.getName1());
-        dialog.setText(R.id.tv_name2, item.getName2());
-        dialog.setText(R.id.tv_name3, item.getName3());
-        dialog.setText(R.id.tv_value1, item.getValue1());
-        dialog.setText(R.id.tv_value2, item.getValue2());
-        dialog.setText(R.id.tv_value3, item.getValue3());
-        dialog.setOnClickListener(R.id.tv_sure, view -> {
-            dialog.dismiss();
-            modifyItem(item.getItemid(), item.getQty());
-        });
-        dialog.setOnClickListener(R.id.tv_delete, view -> {
-            dialog.dismiss();
-            deleteItem(item.getQty());
-        });
-        dialog.show();
     }
 
     /**
@@ -208,38 +185,25 @@ public class GodownInventoryOutLogDetailActivity extends BaseMoudleActivity {
      */
     private void modifyItem(int itemid, int qty) {
         mProgressDilog.show();
-        Map<String, Object> params = new HashMap<>();
-        params.put("userid", Integer.parseInt(SharePreferenceUtil.getInstance().getString("userId")));
-        params.put("tableid", Integer.parseInt(getIntent().getStringExtra("tableid")));
-        params.put("rowid", getIntent().getIntExtra("id", 0));
-        params.put("itemid", itemid);
-        params.put("qty", qty);
-        Map<String, Object> data = new HashMap<>();
-        data.put("method", "boxno_deletecwitem_ard");
-        data.put("params", params);
-        HttpUtils.with(this)
-                .url(Contasts.BASE_URL)
-                .doJsonPost()
-                .setJson(gson.toJson(data))
-                .execute(new HttpCallBack<CommBean>() {
-                    @Override
-                    public void onSuccess(CommBean result) {
-                        mProgressDilog.dismiss();
-                        if (result.getCode() == 200) {
-                            // 刷新界面
-                            quest();
-                        } else {
-                            showSingleSureDialog(result.getMsg(), null);
-                        }
-                    }
+        NetworkHelper.getInstance().updateQty(this, userid, tableid, rowid, itemid, qty, new HttpCallBack<CommBean>() {
+            @Override
+            public void onSuccess(CommBean result) {
+                mProgressDilog.dismiss();
+                if (result.getCode() == 200) {
+                    // 刷新界面
+                    quest();
+                } else {
+                    showErrorTipsDialog(result.getMsg(), null);
+                }
+            }
 
-                    @Override
-                    public void onError(Exception e) {
-                        super.onError(e);
-                        mProgressDilog.dismiss();
-                        showSingleSureDialog(e.getMessage(), null);
-                    }
-                });
+            @Override
+            public void onError(Exception e) {
+                super.onError(e);
+                mProgressDilog.dismiss();
+                showErrorTipsDialog(e.getMessage(), null);
+            }
+        });
     }
 
     /**
@@ -249,45 +213,33 @@ public class GodownInventoryOutLogDetailActivity extends BaseMoudleActivity {
      */
     private void deleteItem(int itemid) {
         mProgressDilog.show();
-        Map<String, Object> params = new HashMap<>();
-        params.put("userid", Integer.parseInt(SharePreferenceUtil.getInstance().getString("userId")));
-        params.put("tableid", Integer.parseInt(getIntent().getStringExtra("tableid")));
-        params.put("rowid", getIntent().getIntExtra("id", 0));
-        params.put("itemid", itemid);
-        Map<String, Object> data = new HashMap<>();
-        data.put("method", "boxno_deletecwitem_ard");
-        data.put("params", params);
-        HttpUtils.with(this)
-                .url(Contasts.BASE_URL)
-                .doJsonPost()
-                .setJson(gson.toJson(data))
-                .execute(new HttpCallBack<CommBean>() {
-                    @Override
-                    public void onSuccess(CommBean result) {
-                        mProgressDilog.dismiss();
-                        if (result.getCode() == 200) {
-                            // 刷新界面
-                            quest();
-                        } else {
-                            showSingleSureDialog(result.getMsg(), null);
-                        }
-                    }
+        NetworkHelper.getInstance().deleteItem(this, userid, tableid, rowid, itemid, new HttpCallBack<CommBean>() {
+            @Override
+            public void onSuccess(CommBean result) {
+                mProgressDilog.dismiss();
+                if (result.getCode() == 200) {
+                    // 刷新界面
+                    quest();
+                } else {
+                    showErrorTipsDialog(result.getMsg(), null);
+                }
+            }
 
-                    @Override
-                    public void onError(Exception e) {
-                        super.onError(e);
-                        mProgressDilog.dismiss();
-                        showSingleSureDialog(e.getMessage(), null);
-                    }
-                });
+            @Override
+            public void onError(Exception e) {
+                super.onError(e);
+                mProgressDilog.dismiss();
+                showErrorTipsDialog(e.getMessage(), null);
+            }
+        });
     }
 
 
     private void quest() {
         Map<String, Object> params = new HashMap<>();
-        params.put("userid", Integer.parseInt(SharePreferenceUtil.getInstance().getString("userId")));
-        params.put("tableid", Integer.parseInt(getIntent().getStringExtra("tableid")));
-        params.put("rowid", getIntent().getIntExtra("id", 0));
+        params.put("userid", userid);
+        params.put("tableid", tableid);
+        params.put("rowid", rowid);
         Map<String, Object> data = new HashMap<>();
         data.put("method", "pdacw_getdocnoview");
         data.put("params", params);
@@ -312,6 +264,7 @@ public class GodownInventoryOutLogDetailActivity extends BaseMoudleActivity {
                     public void onError(Exception e) {
                         super.onError(e);
                         mProgressDilog.dismiss();
+                        showErrorTipsDialog(e.getMessage(), null);
                     }
                 });
     }
@@ -350,7 +303,7 @@ public class GodownInventoryOutLogDetailActivity extends BaseMoudleActivity {
                            quest();*/
                             nextCode();
                         } else {
-                            showSingleSureDialog(result.getMsg(), null);
+                            showErrorTipsDialog(result.getMsg(), null);
                         }
                     }
 
@@ -358,6 +311,7 @@ public class GodownInventoryOutLogDetailActivity extends BaseMoudleActivity {
                     public void onError(Exception e) {
                         super.onError(e);
                         mProgressDilog.dismiss();
+                        showErrorTipsDialog(e.getMessage(), null);
                     }
                 });
     }
@@ -435,6 +389,7 @@ public class GodownInventoryOutLogDetailActivity extends BaseMoudleActivity {
                     public void onError(Exception e) {
                         super.onError(e);
                         mProgressDilog.dismiss();
+                        showErrorTipsDialog(e.getMessage(), null);
                     }
                 });
     }
@@ -486,6 +441,8 @@ public class GodownInventoryOutLogDetailActivity extends BaseMoudleActivity {
         if (autoFill) {
             dialog.setText(R.id.et_scam, bean.getJycw());
         }
+        // 弹框后，下架数量默认获取焦点
+        dialog.getView(R.id.et_xjsl).requestFocus();
 
         EditText etScan = dialog.getView(R.id.et_scam);
         EditText etSl = dialog.getView(R.id.et_xjsl);

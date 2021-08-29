@@ -223,7 +223,44 @@
                         android:layout_weight="1"
                         android:text="CW001"
                         android:textColor="@color/color_2a303c"
-                        android:textSize="14sp"></TextView>
+                        android:textSize="14sp" />
+
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_sl"
+                android:layout_width="match_parent"
+                android:layout_height="48dp">
+
+                <TextView
+                    android:layout_width="80dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="20dp"
+                    android:text="下架数量："
+                    android:textColor="@color/color_2a303c"
+                    android:textSize="14sp" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="44dp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginRight="20dp"
+                    android:background="@drawable/shape_f5f7fa_bg_4">
+
+                    <TextView
+                        android:id="@+id/tv_sl"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginLeft="15dp"
+                        android:layout_weight="1"
+                        android:text="0"
+                        android:textColor="@color/color_2a303c"
+                        android:textSize="14sp" />
 
 
                 </LinearLayout>
@@ -246,43 +283,6 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:visibility="gone">
-
-                <LinearLayout
-                    android:id="@+id/ll_sl"
-                    android:layout_width="match_parent"
-                    android:layout_height="48dp">
-
-                    <TextView
-                        android:layout_width="80dp"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
-                        android:layout_marginLeft="20dp"
-                        android:text="下架数量："
-                        android:textColor="@color/color_2a303c"
-                        android:textSize="14sp" />
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="44dp"
-                        android:layout_gravity="center_vertical"
-                        android:layout_marginRight="20dp"
-                        android:background="@drawable/shape_f5f7fa_bg_4">
-
-                        <TextView
-                            android:id="@+id/tv_sl"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center_vertical"
-                            android:layout_marginLeft="15dp"
-                            android:layout_weight="1"
-                            android:text="0"
-                            android:textColor="@color/color_2a303c"
-                            android:textSize="14sp" />
-
-
-                    </LinearLayout>
-
-                </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -385,7 +385,7 @@
                             android:layout_weight="1"
                             android:text="0"
                             android:textColor="@color/color_2a303c"
-                            android:textSize="14sp"></TextView>
+                            android:textSize="14sp" />
 
 
                     </LinearLayout>
@@ -417,7 +417,7 @@
                     android:drawablePadding="5dp"
                     android:text="更多信息"
                     android:textColor="@color/color_478DFE"
-                    android:textSize="14sp"></TextView>
+                    android:textSize="14sp" />
 
             </RelativeLayout>
 
@@ -444,7 +444,7 @@
                     android:layout_marginLeft="20dp"
                     android:text="总单据数量：0"
                     android:textColor="@color/color_2a303c"
-                    android:textSize="14sp"></TextView>
+                    android:textSize="14sp" />
 
                 <TextView
                     android:id="@+id/tv_zsmsl"
@@ -455,14 +455,14 @@
                     android:layout_marginRight="20dp"
                     android:text="下架数量总和：0"
                     android:textColor="@color/color_2a303c"
-                    android:textSize="14sp"></TextView>
+                    android:textSize="14sp" />
 
             </LinearLayout>
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rc_view"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"/>
+                android:layout_height="match_parent" />
 
 
         </LinearLayout>

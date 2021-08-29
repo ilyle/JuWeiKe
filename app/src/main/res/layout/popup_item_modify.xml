@@ -111,7 +111,7 @@
                 android:paddingLeft="15dp"
                 android:text=""
                 android:textColor="@color/color_2a303c"
-                android:textSize="14sp"/>
+                android:textSize="14sp" />
 
 
         </LinearLayout>
@@ -125,7 +125,7 @@
         android:orientation="horizontal">
 
         <TextView
-            android:id="@+id/tv_sure"
+            android:id="@+id/tv_modify"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
@@ -138,7 +138,7 @@
             android:gravity="center"
             android:paddingTop="12dp"
             android:paddingBottom="12dp"
-            android:text="确定"
+            android:text="修改"
             android:textColor="@color/color_ffffff"
             android:textSize="16sp"
             android:textStyle="bold" />
@@ -153,11 +153,11 @@
             android:layout_marginRight="40dp"
             android:layout_marginBottom="20dp"
             android:layout_weight="1"
-            android:background="@drawable/shape_478dee_bg_4"
+            android:background="@drawable/shape_ea4132_bg_4"
             android:gravity="center"
             android:paddingTop="12dp"
             android:paddingBottom="12dp"
-            android:text="删除条码"
+            android:text="删除"
             android:textColor="@color/color_ffffff"
             android:textSize="16sp"
             android:textStyle="bold" />

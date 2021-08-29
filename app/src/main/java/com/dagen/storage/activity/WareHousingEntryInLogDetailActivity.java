@@ -1,7 +1,6 @@
 package com.dagen.storage.activity;
 
 import android.graphics.drawable.Drawable;
-import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,12 +16,16 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.dagen.storage.R;
 import com.dagen.storage.base.BaseMoudleActivity;
 import com.dagen.storage.bean.CommBean;
+import com.dagen.storage.bean.CwQtyBean;
 import com.dagen.storage.bean.OutLogInfoBean;
 import com.dagen.storage.support.Contasts;
 import com.dagen.storage.support.OnScanFinishListener;
 import com.dagen.storage.support.OnSureClickListener;
 import com.dagen.storage.utils.AppUtils;
+import com.dagen.storage.utils.NetworkHelper;
 import com.dagen.storage.utils.Toaster;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.wanlv365.lawyer.baselibrary.HttpUtils;
 import com.wanlv365.lawyer.baselibrary.utils.SharePreferenceUtil;
 import com.wanlv365.lawyer.baselibrary.view.RecyclerView.CommonAdapter.CommonRecyclerAdapter;
@@ -34,9 +37,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 //入库上架单详情页
@@ -83,7 +86,7 @@ public class WareHousingEntryInLogDetailActivity extends BaseMoudleActivity {
 
         etScam.requestFocus();
 
-        if(getIntent().getStringExtra("tableid").equals("24404")){
+        if (getIntent().getStringExtra("tableid").equals("24404")) {
             tvSure.setText("下架完成");
         }
 
@@ -112,19 +115,74 @@ public class WareHousingEntryInLogDetailActivity extends BaseMoudleActivity {
                     holder.setText(R.id.tv_tm, item.getAlias());
                     holder.setText(R.id.tv_djsl, item.getQtyplan() + "");
                     holder.setText(R.id.tv_xjsl, item.getQty() + "");
-                }else {
-                    if(getIntent().getStringExtra("tableid").equals("24426")){
-                        holder.setText(R.id.tv_xjsl,  "下架数量");
-                    }else {
+                } else {
+                    if (getIntent().getStringExtra("tableid").equals("24426")) {
+                        holder.setText(R.id.tv_xjsl, "下架数量");
+                    } else {
                         holder.setText(R.id.tv_xjsl, "上架数量");
                     }
                 }
+                holder.setOnIntemLongClickListener(new View.OnLongClickListener() {
+                    @Override
+                    public boolean onLongClick(View v) {
+                        showItemModifyDialog(item,
+                                (qty) -> modifyItem(item.getItemid(), qty),
+                                () -> deleteItem(item.getItemid()));
+                        return false;
+                    }
+                });
             }
 
         });
 
         mProgressDilog.show();
         quest();
+    }
+
+    private void modifyItem(int itemid, int qty) {
+        mProgressDilog.show();
+        NetworkHelper.getInstance().updateQty(this, userid, tableid, rowid, itemid, qty, new HttpCallBack<CommBean>() {
+            @Override
+            public void onSuccess(CommBean result) {
+                mProgressDilog.dismiss();
+                if (result.getCode() == 200) {
+                    // 刷新界面
+                    quest();
+                } else {
+                    showErrorTipsDialog(result.getMsg(), null);
+                }
+            }
+
+            @Override
+            public void onError(Exception e) {
+                super.onError(e);
+                mProgressDilog.dismiss();
+                showErrorTipsDialog(e.getMessage(), null);
+            }
+        });
+    }
+
+    private void deleteItem(int itemid) {
+        mProgressDilog.show();
+        NetworkHelper.getInstance().deleteItem(this, userid, tableid, rowid, itemid, new HttpCallBack<CommBean>() {
+            @Override
+            public void onSuccess(CommBean result) {
+                mProgressDilog.dismiss();
+                if (result.getCode() == 200) {
+                    // 刷新界面
+                    quest();
+                } else {
+                    showErrorTipsDialog(result.getMsg(), null);
+                }
+            }
+
+            @Override
+            public void onError(Exception e) {
+                super.onError(e);
+                mProgressDilog.dismiss();
+                showErrorTipsDialog(e.getMessage(), null);
+            }
+        });
     }
 
     private void quest() {
@@ -151,9 +209,9 @@ public class WareHousingEntryInLogDetailActivity extends BaseMoudleActivity {
                                 count+=result.getItem().get(i).getQty();
                             }*/
 
-                            if(getIntent().getStringExtra("tableid").equals("24426")){
-                                tvZsmsl.setText("下架数量总和："+result.getMsg().getTotallqty());
-                            }else {
+                            if (getIntent().getStringExtra("tableid").equals("24426")) {
+                                tvZsmsl.setText("下架数量总和：" + result.getMsg().getTotallqty());
+                            } else {
                                 tvZsmsl.setText("上架数量总和：" + result.getMsg().getTotallqty());
                             }
 
@@ -195,15 +253,15 @@ public class WareHousingEntryInLogDetailActivity extends BaseMoudleActivity {
                     @Override
                     public void onSuccess(CommBean result) {
                         etScam.setText("");
+                        etScam.postDelayed(()->etScam.requestFocus(), 500);
                         //   mProgressDilog.dismiss();
                         if (result.getCode() == 200) {
                             Toaster.showMsg("插入成功！");
-                            playSoundAndVirate();
                             mBeans.clear();
                             quest();
                         } else {
                             mProgressDilog.dismiss();
-                            Toaster.showMsg(result.getMsg());
+                            showErrorTipsDialog(result.getMsg(), null);
                         }
                     }
 
@@ -211,6 +269,7 @@ public class WareHousingEntryInLogDetailActivity extends BaseMoudleActivity {
                     public void onError(Exception e) {
                         super.onError(e);
                         mProgressDilog.dismiss();
+                        showErrorTipsDialog(e.getMessage(), null);
                     }
                 });
     }
@@ -237,7 +296,7 @@ public class WareHousingEntryInLogDetailActivity extends BaseMoudleActivity {
                             tv.setText(result.getMsg());
                         } else {
                             mProgressDilog.dismiss();
-                            Toaster.showMsg(result.getMsg());
+                            showErrorTipsDialog(result.getMsg(), null);
                         }
                     }
 
@@ -245,6 +304,7 @@ public class WareHousingEntryInLogDetailActivity extends BaseMoudleActivity {
                     public void onError(Exception e) {
                         super.onError(e);
                         mProgressDilog.dismiss();
+                        showErrorTipsDialog(e.getMessage(), null);
                     }
                 });
     }
@@ -274,12 +334,7 @@ public class WareHousingEntryInLogDetailActivity extends BaseMoudleActivity {
                             setResult(RESULT_OK);
                             finish();
                         } else {
-                            showSureDialog(result.getMsg(), new OnSureClickListener() {
-                                @Override
-                                public void onSure() {
-
-                                }
-                            });
+                            showErrorTipsDialog(result.getMsg(), null);
                         }
                     }
 
@@ -287,6 +342,7 @@ public class WareHousingEntryInLogDetailActivity extends BaseMoudleActivity {
                     public void onError(Exception e) {
                         super.onError(e);
                         mProgressDilog.dismiss();
+                        showErrorTipsDialog(e.getMessage(), null);
                     }
                 });
     }
@@ -305,17 +361,24 @@ public class WareHousingEntryInLogDetailActivity extends BaseMoudleActivity {
 
         etSl.setSelection(etSl.getText().length());
 
-        if(getIntent().getStringExtra("tableid").equals("24404")){
+        if (getIntent().getStringExtra("tableid").equals("24404")) {
             ll_jycw.setVisibility(View.GONE);
             tv_sl_title.setText("下架数量: ");
-        }else {
+        } else {
             getCw(tm, tvCw);
         }
+
+        NetworkHelper.getInstance().getUpAliasList(this, userid, tableid, rowid, tm, new HttpCallBack<String>() {
+            @Override
+            public void onSuccess(String result) {
+                tvCw.setText(generateCwQtyStr(result));
+            }
+        });
 
         dialog.setOnClickListener(R.id.tv_sure, new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(TextUtils.isEmpty(tvCw.getText().toString().trim())){
+                if (TextUtils.isEmpty(tvCw.getText().toString().trim())) {
                     getCw(tm, tvCw);
                     return;
                 }
@@ -338,6 +401,20 @@ public class WareHousingEntryInLogDetailActivity extends BaseMoudleActivity {
             }
         });
         dialog.show();
+    }
+
+    private String generateCwQtyStr(String input) {
+        List<CwQtyBean> cwQtyBeanList = new Gson().fromJson(input, new TypeToken<List<CwQtyBean>>() {
+        }.getType());
+        StringBuilder builder = new StringBuilder();
+        for (CwQtyBean cwQtyBean : cwQtyBeanList) {
+            builder.append(cwQtyBean.toString()).append(", ");
+        }
+        String ret = builder.toString();
+        if (ret.endsWith(", ")) {
+            return ret.substring(0, builder.length() - 2);
+        }
+        return ret;
     }
 
     @OnClick({R.id.iv_common_left, R.id.rl_expand, R.id.tv_sure})

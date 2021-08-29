@@ -1,17 +1,16 @@
 package com.dagen.storage.base;
 
-import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Service;
 import android.content.Context;
-import android.content.Intent;
+import android.content.res.AssetFileDescriptor;
+import android.media.MediaPlayer;
 import android.media.Ringtone;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Handler;
 import android.os.Vibrator;
-import android.provider.Settings;
 import android.telephony.TelephonyManager;
 import android.text.InputFilter;
 import android.text.TextUtils;
@@ -21,19 +20,16 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bigkoo.pickerview.builder.OptionsPickerBuilder;
 import com.bigkoo.pickerview.listener.CustomListener;
 import com.bigkoo.pickerview.listener.OnOptionsSelectListener;
 import com.bigkoo.pickerview.view.OptionsPickerView;
 import com.bigkoo.pickerview.view.TimePickerView;
-import com.dagen.storage.LoginActivity;
-import com.dagen.storage.MainActivity;
 import com.dagen.storage.R;
-import com.dagen.storage.SplashActivity;
-import com.dagen.storage.activity.GodownInventoryOutLogHomeActivity;
+import com.dagen.storage.bean.OutLogInfoBean;
 import com.dagen.storage.support.NewlineFilter;
+import com.dagen.storage.support.OnModifyClickListener;
 import com.dagen.storage.support.OnPickerSelectListener;
 import com.dagen.storage.support.OnScanFinishListener;
 import com.dagen.storage.support.OnScanFinishListener2;
@@ -46,33 +42,38 @@ import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
-import com.tbruyelle.rxpermissions2.Permission;
-import com.tbruyelle.rxpermissions2.RxPermissions;
 import com.wanlv365.lawyer.baselibrary.base.BaseActivity;
 import com.wanlv365.lawyer.baselibrary.utils.SharePreferenceUtil;
 import com.wanlv365.lawyer.baselibrary.view.dialog.AlertDialog;
 
-import org.w3c.dom.Text;
-
-import java.io.UnsupportedEncodingException;
-import java.lang.reflect.Method;
-import java.net.URLEncoder;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.UUID;
-
-import io.reactivex.functions.Consumer;
 
 public class BaseMoudleActivity extends BaseActivity {
 
     public OptionsPickerView pvCustomOptions;
     public TimePickerView mTimePicker;
+    public MediaPlayer mMediaPlayer = new MediaPlayer();
+
+
+    public int userid = 0;
+    public int tableid = 0;
+    public int rowid = 0;
 
     @Override
     public void initData() {
-
+        String useridStr = SharePreferenceUtil.getInstance().getString("userId");
+        if (!TextUtils.isEmpty(useridStr)) {
+            userid = Integer.parseInt(useridStr);
+        }
+        String tableidStr = getIntent().getStringExtra("tableid");
+        if (!TextUtils.isEmpty(tableidStr)) {
+            tableid = Integer.parseInt(getIntent().getStringExtra("tableid"));
+        }
+        rowid = getIntent().getIntExtra("id", 0);
     }
 
     @Override
@@ -164,8 +165,39 @@ public class BaseMoudleActivity extends BaseActivity {
         dialog.show();
     }
 
-    public void showSingleSureDialog(String content, OnSureClickListener listener) {
-        AlertDialog dialog = new AlertDialog.Builder(this).setContentView(R.layout.dialog_commit_single)
+    /**
+     * 显示修改明细对话框
+     */
+    public void showItemModifyDialog(OutLogInfoBean.ItemBean item, OnModifyClickListener modifyListener, OnSureClickListener deleteListerner) {
+        AlertDialog dialog = new AlertDialog.Builder(this).setContentView(R.layout.popup_item_modify)
+                .setWidthAndHeight(AppUtils.getScreenWidth(this) * 85 / 100, ViewGroup.LayoutParams.WRAP_CONTENT)
+                .create();
+        dialog.setText(R.id.tv_name1, item.getName1());
+        dialog.setText(R.id.tv_name2, item.getName2());
+        dialog.setText(R.id.tv_name3, item.getName3());
+        dialog.setText(R.id.tv_value1, item.getValue1());
+        dialog.setText(R.id.tv_value2, item.getValue2());
+        dialog.setText(R.id.tv_value3, item.getValue3());
+        dialog.setOnClickListener(R.id.tv_modify, view -> {
+            dialog.dismiss();
+            if (modifyListener != null) {
+                int qty = Integer.parseInt(((EditText)dialog.getView(R.id.tv_value3)).getText().toString().trim());
+                modifyListener.onSure(qty);
+            }
+        });
+        dialog.setOnClickListener(R.id.tv_delete, view -> {
+            dialog.dismiss();
+            if (deleteListerner != null) deleteListerner.onSure();
+        });
+        dialog.show();
+    }
+
+    /**
+     * 显示错误提示框
+     */
+    public void showErrorTipsDialog(String content, OnSureClickListener listener) {
+        AlertDialog dialog = new AlertDialog.Builder(this)
+                .setContentView(R.layout.dialog_commit_single)
                 .setWidthAndHeight(AppUtils.getScreenWidth(this) * 85 / 100, ViewGroup.LayoutParams.WRAP_CONTENT)
                 .create();
 
@@ -180,8 +212,34 @@ public class BaseMoudleActivity extends BaseActivity {
         });
 
         dialog.show();
+
+        // 播放错误提示声
+        playFailedTips();
     }
 
+    public void playSuccessTips() {
+        try {
+            AssetFileDescriptor fd = getAssets().openFd("success.mp3");
+            mMediaPlayer.reset();
+            mMediaPlayer.setDataSource(fd.getFileDescriptor(), fd.getStartOffset(), fd.getLength());
+            mMediaPlayer.prepare();
+            mMediaPlayer.start();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void playFailedTips() {
+        try {
+            AssetFileDescriptor fd = getAssets().openFd("failed.mp3");
+            mMediaPlayer.reset();
+            mMediaPlayer.setDataSource(fd.getFileDescriptor(), fd.getStartOffset(), fd.getLength());
+            mMediaPlayer.prepare();
+            mMediaPlayer.start();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
     public void playSoundAndVirate() {
         new Handler().postDelayed(new Runnable() {

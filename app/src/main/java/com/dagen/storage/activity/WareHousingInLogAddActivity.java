@@ -197,6 +197,7 @@ public class WareHousingInLogAddActivity extends BaseMoudleActivity {
                     public void onError(Exception e) {
                         super.onError(e);
                         mProgressDilog.dismiss();
+                        showErrorTipsDialog(e.getMessage(),null);
                     }
                 });
     }
@@ -266,20 +267,10 @@ public class WareHousingInLogAddActivity extends BaseMoudleActivity {
                                  // setResult(RESULT_OK);
                                 //  finish();
                               }else {
-                                  showSureDialog(result.getValue(), new OnSureClickListener() {
-                                      @Override
-                                      public void onSure() {
-
-                                      }
-                                  });
+                                  showErrorTipsDialog(result.getValue(), null);
                               }
                         }else {
-                           showSureDialog(result.getValue(), new OnSureClickListener() {
-                               @Override
-                               public void onSure() {
-
-                               }
-                           });
+                           showErrorTipsDialog(result.getValue(), null);
                         }
                     }
 
@@ -287,6 +278,7 @@ public class WareHousingInLogAddActivity extends BaseMoudleActivity {
                     public void onError(Exception e) {
                         super.onError(e);
                         mProgressDilog.dismiss();
+                        showErrorTipsDialog(e.getMessage(), null);
                     }
                 });
     }

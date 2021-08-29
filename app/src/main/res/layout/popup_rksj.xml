@@ -11,9 +11,9 @@
         android:layout_height="54dp">
 
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="72dp"
             android:layout_height="wrap_content"
-            android:text="条码：         "
+            android:text="条码："
             android:textColor="@color/color_2a303c"
             android:textSize="14sp"
             android:layout_marginLeft="20dp"
@@ -51,9 +51,9 @@
         android:layout_height="54dp">
 
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="72dp"
             android:layout_height="wrap_content"
-            android:text="建议储位："
+            android:text="储位库存："
             android:textColor="@color/color_2a303c"
             android:textSize="14sp"
             android:layout_marginLeft="20dp"
@@ -91,13 +91,13 @@
 
         <TextView
             android:id="@+id/tv_sl_title"
-            android:layout_width="wrap_content"
+            android:layout_width="72dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:layout_marginLeft="20dp"
             android:text="上架数量："
             android:textColor="@color/color_2a303c"
-            android:textSize="14sp"></TextView>
+            android:textSize="14sp"/>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -136,14 +136,14 @@
         android:layout_height="54dp">
 
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="72dp"
             android:layout_height="wrap_content"
             android:text="实际储位："
             android:textColor="@color/color_2a303c"
             android:textSize="14sp"
             android:layout_marginLeft="20dp"
             android:layout_gravity="center_vertical"
-            ></TextView>
+            />
 
         <LinearLayout
             android:layout_width="match_parent"

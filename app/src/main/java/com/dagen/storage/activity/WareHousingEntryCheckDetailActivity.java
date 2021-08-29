@@ -18,6 +18,7 @@ import com.dagen.storage.support.Contasts;
 import com.dagen.storage.support.OnScanFinishListener;
 import com.dagen.storage.support.OnSureClickListener;
 import com.dagen.storage.utils.AppUtils;
+import com.dagen.storage.utils.NetworkHelper;
 import com.dagen.storage.utils.Toaster;
 import com.wanlv365.lawyer.baselibrary.HttpUtils;
 import com.wanlv365.lawyer.baselibrary.utils.SharePreferenceUtil;
@@ -33,6 +34,7 @@ import java.util.Map;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
 import butterknife.BindView;
 import butterknife.OnClick;
 
@@ -67,7 +69,7 @@ public class WareHousingEntryCheckDetailActivity extends BaseMoudleActivity {
 
     private List<OutLogInfoBean.ItemBean> mBeans = new ArrayList<>();
     private OutLogInfoBean.MsgBean bean;
-    private String diffreason="";
+    private String diffreason = "";
 
     @Override
     public int getLayoutId() {
@@ -81,7 +83,7 @@ public class WareHousingEntryCheckDetailActivity extends BaseMoudleActivity {
 
         etScam.requestFocus();
 
-        if(getIntent().getStringExtra("tableid").equals("24404")){
+        if (getIntent().getStringExtra("tableid").equals("24404")) {
             tvSure.setText("下架完成");
         }
 
@@ -105,7 +107,7 @@ public class WareHousingEntryCheckDetailActivity extends BaseMoudleActivity {
             @Override
             public void convert(ViewHolder holder, OutLogInfoBean.ItemBean item) {
 
-                holder.getView(R.id.tv_djsl).setVisibility(getIntent().getStringExtra("tableid").equals("24426")?View.VISIBLE:View.GONE);
+                holder.getView(R.id.tv_djsl).setVisibility(getIntent().getStringExtra("tableid").equals("24426") ? View.VISIBLE : View.GONE);
 
                 if (holder.getAdapterPosition() != 0) {
                     holder.setText(R.id.tv_xh, (holder.getAdapterPosition()) + "");
@@ -113,21 +115,87 @@ public class WareHousingEntryCheckDetailActivity extends BaseMoudleActivity {
                     holder.setText(R.id.tv_tm, item.getAlias());
                     holder.setText(R.id.tv_djsl, item.getQtybook() + "");
                     holder.setText(R.id.tv_xjsl, item.getQty() + "");
-                }else {
-                    if(getIntent().getStringExtra("tableid").equals("24426")){
+                } else {
+                    if (getIntent().getStringExtra("tableid").equals("24426")) {
                         holder.setText(R.id.tv_xjsl, "盘点数量");
                         holder.setText(R.id.tv_djsl, "账面数");
 
-                    }else {
+                    } else {
                         holder.setText(R.id.tv_xjsl, "下架数量");
                     }
                 }
+                holder.setOnIntemLongClickListener(new View.OnLongClickListener() {
+                    @Override
+                    public boolean onLongClick(View v) {
+                        showItemModifyDialog(item,
+                                (qty) -> modifyItem(item.getItemid(), qty),
+                                () -> deleteItem(item.getItemid()));
+                        return false;
+                    }
+                });
             }
 
         });
 
         mProgressDilog.show();
         quest();
+    }
+
+    /**
+     * 修改明细明细
+     *
+     * @param itemid 物品条码
+     * @param qty    数量
+     */
+    private void modifyItem(int itemid, int qty) {
+        mProgressDilog.show();
+        NetworkHelper.getInstance().updateQty(this, userid, tableid, rowid, itemid, qty, new HttpCallBack<CommBean>() {
+            @Override
+            public void onSuccess(CommBean result) {
+                mProgressDilog.dismiss();
+                if (result.getCode() == 200) {
+                    // 刷新界面
+                    quest();
+                } else {
+                    showErrorTipsDialog(result.getMsg(), null);
+                }
+            }
+
+            @Override
+            public void onError(Exception e) {
+                super.onError(e);
+                mProgressDilog.dismiss();
+                showErrorTipsDialog(e.getMessage(), null);
+            }
+        });
+    }
+
+    /**
+     * 删除明细
+     *
+     * @param itemid 条码
+     */
+    private void deleteItem(int itemid) {
+        mProgressDilog.show();
+        NetworkHelper.getInstance().deleteItem(this, userid, tableid, rowid, itemid, new HttpCallBack<CommBean>() {
+            @Override
+            public void onSuccess(CommBean result) {
+                mProgressDilog.dismiss();
+                if (result.getCode() == 200) {
+                    // 刷新界面
+                    quest();
+                } else {
+                    showErrorTipsDialog(result.getMsg(), null);
+                }
+            }
+
+            @Override
+            public void onError(Exception e) {
+                super.onError(e);
+                mProgressDilog.dismiss();
+                showErrorTipsDialog(e.getMessage(), null);
+            }
+        });
     }
 
     private void quest() {
@@ -149,23 +217,23 @@ public class WareHousingEntryCheckDetailActivity extends BaseMoudleActivity {
                         if (result.getCode() == 200) {
 
 
-                            int count=0;
+                            int count = 0;
 
-                            if(getIntent().getStringExtra("tableid").equals("24426")){
-                               tvZsmsl.setText("盘点数量总和："+count);
-                            }else {
-                              tvZsmsl.setText("下架数量总和："+count);
+                            if (getIntent().getStringExtra("tableid").equals("24426")) {
+                                tvZsmsl.setText("盘点数量总和：" + count);
+                            } else {
+                                tvZsmsl.setText("下架数量总和：" + count);
                             }
 
 
-                            for(int i=0;i<result.getItem().size();i++){
-                                count+=result.getItem().get(i).getQty();
+                            for (int i = 0; i < result.getItem().size(); i++) {
+                                count += result.getItem().get(i).getQty();
                             }
 
-                            if(getIntent().getStringExtra("tableid").equals("24426")){
-                                tvZsmsl.setText("盘点数量总和："+count);
-                            }else {
-                                tvZsmsl.setText("下架数量总和："+count);
+                            if (getIntent().getStringExtra("tableid").equals("24426")) {
+                                tvZsmsl.setText("盘点数量总和：" + count);
+                            } else {
+                                tvZsmsl.setText("下架数量总和：" + count);
                             }
 
 
@@ -281,7 +349,7 @@ public class WareHousingEntryCheckDetailActivity extends BaseMoudleActivity {
                         mProgressDilog.dismiss();
                         etScam.setText("");
 
-                        if(result.getSucceed()==-2){
+                        if (result.getSucceed() == -2) {
                             showChayiDialog(result.getMsg());
                             return;
                         }
@@ -316,8 +384,8 @@ public class WareHousingEntryCheckDetailActivity extends BaseMoudleActivity {
         AlertDialog dialog = new AlertDialog.Builder(this).setContentView(R.layout.popup_cx)
                 .setWidthAndHeight(AppUtils.getScreenWidth(this) * 85 / 100, ViewGroup.LayoutParams.WRAP_CONTENT)
                 .create();
-        dialog.setText(R.id.tv_title,msg);
-        EditText et=dialog.getView(R.id.et_sl);
+        dialog.setText(R.id.tv_title, msg);
+        EditText et = dialog.getView(R.id.et_sl);
         dialog.getView(R.id.tv_cancel).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -327,12 +395,12 @@ public class WareHousingEntryCheckDetailActivity extends BaseMoudleActivity {
         dialog.getView(R.id.tv_sure).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(TextUtils.isEmpty(et.getText().toString().trim())){
+                if (TextUtils.isEmpty(et.getText().toString().trim())) {
                     Toaster.showMsg("请填写原因");
                     return;
                 }
                 dialog.dismiss();
-                diffreason=et.getText().toString().trim();
+                diffreason = et.getText().toString().trim();
                 mProgressDilog.show();
                 commit();
             }
@@ -353,14 +421,12 @@ public class WareHousingEntryCheckDetailActivity extends BaseMoudleActivity {
         LinearLayout ll_sjcw = dialog.getView(R.id.ll_sjcw);
 
 
-
-
         etSl.setSelection(etSl.getText().length());
 
         ll_jycw.setVisibility(View.GONE);
         tv_sl_title.setText("数量: ");
 
-        if(getIntent().getStringExtra("tableid").equals("24426")){
+        if (getIntent().getStringExtra("tableid").equals("24426")) {
             ll_sjcw.setVisibility(View.GONE);
         }
 
@@ -374,7 +440,7 @@ public class WareHousingEntryCheckDetailActivity extends BaseMoudleActivity {
                 }
 
 
-                if (!getIntent().getStringExtra("tableid").equals("24426")&&TextUtils.isEmpty(etScan.getText().toString().trim())) {
+                if (!getIntent().getStringExtra("tableid").equals("24426") && TextUtils.isEmpty(etScan.getText().toString().trim())) {
                     Toaster.showMsg("实际储位不能为空");
                     return;
                 }
