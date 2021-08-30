@@ -236,7 +236,7 @@ public class WareHousingEntryCheckDetailActivity extends BaseMoudleActivity {
                                 tvZsmsl.setText("下架数量总和：" + count);
                             }
 
-
+                            mBeans.clear();
                             mBeans.add(new OutLogInfoBean.ItemBean());
                             mBeans.addAll(result.getItem());
                             rcView.getAdapter().notifyDataSetChanged();

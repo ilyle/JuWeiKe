@@ -178,10 +178,18 @@ public class BaseMoudleActivity extends BaseActivity {
         dialog.setText(R.id.tv_value1, item.getValue1());
         dialog.setText(R.id.tv_value2, item.getValue2());
         dialog.setText(R.id.tv_value3, item.getValue3());
+
+        // 获取焦点
+        EditText et = dialog.getView(R.id.tv_value3);
+        et.postDelayed(() -> {
+            et.requestFocus();
+            et.setSelection(et.getText().toString().length());
+        }, 500);
+
         dialog.setOnClickListener(R.id.tv_modify, view -> {
             dialog.dismiss();
             if (modifyListener != null) {
-                int qty = Integer.parseInt(((EditText)dialog.getView(R.id.tv_value3)).getText().toString().trim());
+                int qty = Integer.parseInt(et.getText().toString().trim());
                 modifyListener.onSure(qty);
             }
         });

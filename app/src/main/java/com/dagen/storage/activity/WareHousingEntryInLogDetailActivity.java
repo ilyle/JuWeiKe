@@ -214,7 +214,7 @@ public class WareHousingEntryInLogDetailActivity extends BaseMoudleActivity {
                             } else {
                                 tvZsmsl.setText("上架数量总和：" + result.getMsg().getTotallqty());
                             }
-
+                            mBeans.clear();
                             mBeans.add(new OutLogInfoBean.ItemBean());
                             mBeans.addAll(result.getItem());
                             rcView.getAdapter().notifyDataSetChanged();
