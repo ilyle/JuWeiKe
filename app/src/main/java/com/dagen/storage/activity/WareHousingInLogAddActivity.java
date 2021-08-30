@@ -190,6 +190,8 @@ public class WareHousingInLogAddActivity extends BaseMoudleActivity {
                              }
 
                              rcSx.getAdapter().notifyDataSetChanged();
+                        } else {
+                            showErrorTipsDialog(result.getMsg().toString(), null);
                         }
                     }
 

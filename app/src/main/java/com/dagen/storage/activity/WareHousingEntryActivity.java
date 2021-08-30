@@ -234,7 +234,7 @@ public class WareHousingEntryActivity extends BaseMoudleActivity implements Comm
                             tv.setText(result.getMsg());
                         } else {
                             mProgressDilog.dismiss();
-                            Toaster.showMsg(result.getMsg());
+                            showErrorTipsDialog(result.getMsg(), null);
                         }
                     }
 
@@ -242,6 +242,7 @@ public class WareHousingEntryActivity extends BaseMoudleActivity implements Comm
                     public void onError(Exception e) {
                         super.onError(e);
                         mProgressDilog.dismiss();
+                        showErrorTipsDialog(e.getMessage(), null);
                     }
                 });
     }
@@ -268,7 +269,7 @@ public class WareHousingEntryActivity extends BaseMoudleActivity implements Comm
                             insert(tm,"",1);
                         } else {
                             mProgressDilog.dismiss();
-                            Toaster.showMsg(result.getMsg());
+                            showErrorTipsDialog(result.getMsg(), null);
                         }
                     }
 
@@ -276,6 +277,8 @@ public class WareHousingEntryActivity extends BaseMoudleActivity implements Comm
                     public void onError(Exception e) {
                         super.onError(e);
                         mProgressDilog.dismiss();
+                        showErrorTipsDialog(e.getMessage(), null);
+
                     }
                 });
     }
@@ -308,7 +311,7 @@ public class WareHousingEntryActivity extends BaseMoudleActivity implements Comm
                             quest();
                         } else {
                             mProgressDilog.dismiss();
-                            Toaster.showMsg(result.getMsg());
+                            showErrorTipsDialog(result.getMsg(), null);
                         }
                     }
 
@@ -316,6 +319,7 @@ public class WareHousingEntryActivity extends BaseMoudleActivity implements Comm
                     public void onError(Exception e) {
                         super.onError(e);
                         mProgressDilog.dismiss();
+                        showErrorTipsDialog(e.getMessage(), null);
                     }
                 });
     }
@@ -358,10 +362,10 @@ public class WareHousingEntryActivity extends BaseMoudleActivity implements Comm
                                 startActivityForResult(intent, 600);
                                 popupWindow.dismiss();
                             } else {
-                                Toaster.showMsg(result.getValue());
+                                showErrorTipsDialog(result.getValue(), null);
                             }
                         } else {
-                            Toaster.showMsg(result.getValue());
+                            showErrorTipsDialog(result.getValue(), null);
 
                         }
                     }
@@ -370,6 +374,7 @@ public class WareHousingEntryActivity extends BaseMoudleActivity implements Comm
                     public void onError(Exception e) {
                         super.onError(e);
                         mProgressDilog.dismiss();
+                        showErrorTipsDialog(e.getMessage(), null);
                     }
                 });
     }
@@ -394,6 +399,8 @@ public class WareHousingEntryActivity extends BaseMoudleActivity implements Comm
                         if (result.getCode() == 200) {
                             mTms.addAll(result.getMsg());
                             showPop();
+                        } else {
+                            showErrorTipsDialog(result.getMsg().toString(), null);
                         }
                     }
 
@@ -401,6 +408,7 @@ public class WareHousingEntryActivity extends BaseMoudleActivity implements Comm
                     public void onError(Exception e) {
                         super.onError(e);
                         mProgressDilog.dismiss();
+                        showErrorTipsDialog(e.getMessage(), null);
                     }
                 });
     }
@@ -505,6 +513,8 @@ public class WareHousingEntryActivity extends BaseMoudleActivity implements Comm
                                 }
                             });
 
+                        } else {
+                            showErrorTipsDialog(result.getMsg().toString(), null);
                         }
                     }
 
@@ -512,6 +522,7 @@ public class WareHousingEntryActivity extends BaseMoudleActivity implements Comm
                     public void onError(Exception e) {
                         super.onError(e);
                         mProgressDilog.dismiss();
+                        showErrorTipsDialog(e.getMessage(), null);
                     }
                 });
     }
@@ -571,12 +582,7 @@ public class WareHousingEntryActivity extends BaseMoudleActivity implements Comm
                             finish();
                         } else {
 
-                            showSureDialog(result.getMsg(), new OnSureClickListener() {
-                                @Override
-                                public void onSure() {
-
-                                }
-                            });
+                            showErrorTipsDialog(result.getMsg(), null);
                         }
                     }
 
@@ -584,6 +590,7 @@ public class WareHousingEntryActivity extends BaseMoudleActivity implements Comm
                     public void onError(Exception e) {
                         super.onError(e);
                         mProgressDilog.dismiss();
+                        showErrorTipsDialog(e.getMessage(), null);
                     }
                 });
     }
@@ -680,6 +687,8 @@ public class WareHousingEntryActivity extends BaseMoudleActivity implements Comm
                         mProgressDilog.dismiss();
                         if (result.getCode() == 200 && result.getSucceed() == 0) {
                             quest();
+                        } else {
+                            showErrorTipsDialog(result.getMsg(), null);
                         }
                     }
 
@@ -687,6 +696,7 @@ public class WareHousingEntryActivity extends BaseMoudleActivity implements Comm
                     public void onError(Exception e) {
                         super.onError(e);
                         mProgressDilog.dismiss();
+                        showErrorTipsDialog(e.getMessage(), null);
                     }
                 });
     }

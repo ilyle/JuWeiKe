@@ -335,6 +335,7 @@ public class WareHousingEntryInsert2Activity extends BaseMoudleActivity  {
                     public void onError(Exception e) {
                         super.onError(e);
                         mProgressDilog.dismiss();
+                        showErrorTipsDialog(e.getMessage(), null);
                     }
                 });
     }

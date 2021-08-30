@@ -248,6 +248,8 @@ public class StockQueryForSpecActivity extends BaseMoudleActivity {
                             table.getConfig().setShowTableTitle(false);
                             table.getConfig().setShowXSequence(false);
                             table.getConfig().setShowYSequence(false);
+                        } else {
+                            showErrorTipsDialog(result.getMsg().toString(), null);
                         }
                     }
 
@@ -255,6 +257,7 @@ public class StockQueryForSpecActivity extends BaseMoudleActivity {
                     public void onError(Exception e) {
                         super.onError(e);
                         mProgressDilog.dismiss();
+                        showErrorTipsDialog(e.getMessage(), null);
                     }
                 });
     }

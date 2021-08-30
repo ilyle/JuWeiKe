@@ -139,7 +139,7 @@ public class SystemSettingActivity extends BaseMoudleActivity {
                             SharePreferenceUtil.getInstance().saveString("url", etErp.getText().toString().trim()).commit();
                             finish();
                         } else {
-                            Toaster.showMsg(result.getMsg());
+                            showErrorTipsDialog(result.getMsg(), null);
                         }
                     }
 

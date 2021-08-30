@@ -136,6 +136,8 @@ public class SelectStoreActivity extends BaseMoudleActivity {
                         if (result.getCode() == 200) {
                             mBeans.addAll(result.getMsg());
                             rcView.getAdapter().notifyDataSetChanged();
+                        } else {
+                            showErrorTipsDialog(result.getMsg().toString(), null);
                         }
                     }
 
@@ -143,6 +145,7 @@ public class SelectStoreActivity extends BaseMoudleActivity {
                     public void onError(Exception e) {
                         super.onError(e);
                         mProgressDilog.dismiss();
+                        showErrorTipsDialog(e.getMessage(), null);
                     }
                 });
     }

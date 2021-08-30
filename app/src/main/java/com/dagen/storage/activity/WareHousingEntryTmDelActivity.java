@@ -130,7 +130,7 @@ public class WareHousingEntryTmDelActivity extends BaseMoudleActivity {
                             mBeans.addAll(result.getMsg());
                             rcView.getAdapter().notifyDataSetChanged();
                         }else {
-                            Toaster.showMsg(result.getValue());
+                            showErrorTipsDialog(result.getMsg().toString(), null);
                         }
                     }
 
@@ -138,6 +138,7 @@ public class WareHousingEntryTmDelActivity extends BaseMoudleActivity {
                     public void onError(Exception e) {
                         super.onError(e);
                         mProgressDilog.dismiss();
+                        showErrorTipsDialog(e.getMessage(), null);
                     }
                 });
     }
@@ -195,7 +196,7 @@ public class WareHousingEntryTmDelActivity extends BaseMoudleActivity {
                            setResult(RESULT_OK);
                            finish();
                         }else {
-                            Toaster.showMsg(result.getValue());
+                            showErrorTipsDialog(result.getMsg(), null);
                         }
                     }
 
@@ -203,6 +204,7 @@ public class WareHousingEntryTmDelActivity extends BaseMoudleActivity {
                     public void onError(Exception e) {
                         super.onError(e);
                         mProgressDilog.dismiss();
+                        showErrorTipsDialog(e.getMessage(), null);
                     }
                 });
     }

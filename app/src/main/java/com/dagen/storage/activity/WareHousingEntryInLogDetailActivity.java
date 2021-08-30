@@ -221,6 +221,8 @@ public class WareHousingEntryInLogDetailActivity extends BaseMoudleActivity {
 
                             bean = result.getMsg();
                             // setData(result.getMsg());
+                        } else {
+                            showErrorTipsDialog(result.getMsg().toString(), null);
                         }
                     }
 
@@ -228,6 +230,7 @@ public class WareHousingEntryInLogDetailActivity extends BaseMoudleActivity {
                     public void onError(Exception e) {
                         super.onError(e);
                         mProgressDilog.dismiss();
+                        showErrorTipsDialog(e.getMessage(), null);
                     }
                 });
     }

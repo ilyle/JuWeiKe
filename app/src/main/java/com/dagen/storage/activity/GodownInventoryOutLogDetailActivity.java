@@ -257,6 +257,8 @@ public class GodownInventoryOutLogDetailActivity extends BaseMoudleActivity {
                             mBeans.addAll(result.getItem());
                             rcView.getAdapter().notifyDataSetChanged();
                             setData(result.getMsg());
+                        } else {
+                            showErrorTipsDialog(result.getMsg().toString(), null);
                         }
                     }
 
@@ -339,7 +341,7 @@ public class GodownInventoryOutLogDetailActivity extends BaseMoudleActivity {
 
                         } else {
                             mProgressDilog.dismiss();
-                            Toaster.showMsg(result.getMsg());
+                            showErrorTipsDialog(result.getMsg(), null);
                         }
                     }
 
@@ -347,6 +349,7 @@ public class GodownInventoryOutLogDetailActivity extends BaseMoudleActivity {
                     public void onError(Exception e) {
                         super.onError(e);
                         mProgressDilog.dismiss();
+                        showErrorTipsDialog(e.getMessage(), null);
                     }
                 });
     }
@@ -376,12 +379,7 @@ public class GodownInventoryOutLogDetailActivity extends BaseMoudleActivity {
                             setResult(RESULT_OK);
                             finish();
                         } else {
-                            showSureDialog(result.getMsg(), new OnSureClickListener() {
-                                @Override
-                                public void onSure() {
-
-                                }
-                            });
+                            showErrorTipsDialog(result.getMsg(), null);
                         }
                     }
 

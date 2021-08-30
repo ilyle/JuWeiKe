@@ -243,6 +243,8 @@ public class WareHousingEntryCheckDetailActivity extends BaseMoudleActivity {
 
                             bean = result.getMsg();
                             // setData(result.getMsg());
+                        } else {
+                            showErrorTipsDialog(result.getMsg().toString(), null);
                         }
                     }
 
@@ -250,6 +252,7 @@ public class WareHousingEntryCheckDetailActivity extends BaseMoudleActivity {
                     public void onError(Exception e) {
                         super.onError(e);
                         mProgressDilog.dismiss();
+                        showErrorTipsDialog(e.getMessage(), null);
                     }
                 });
     }
@@ -321,7 +324,7 @@ public class WareHousingEntryCheckDetailActivity extends BaseMoudleActivity {
                             tv.setText(result.getMsg());
                         } else {
                             mProgressDilog.dismiss();
-                            Toaster.showMsg(result.getMsg());
+                            showErrorTipsDialog(result.getMsg(), null);
                         }
                     }
 
@@ -329,6 +332,7 @@ public class WareHousingEntryCheckDetailActivity extends BaseMoudleActivity {
                     public void onError(Exception e) {
                         super.onError(e);
                         mProgressDilog.dismiss();
+                        showErrorTipsDialog(e.getMessage(), null);
                     }
                 });
     }
@@ -366,12 +370,7 @@ public class WareHousingEntryCheckDetailActivity extends BaseMoudleActivity {
                             setResult(RESULT_OK);
                             finish();
                         } else {
-                            showSureDialog(result.getMsg(), new OnSureClickListener() {
-                                @Override
-                                public void onSure() {
-
-                                }
-                            });
+                            showErrorTipsDialog(result.getMsg(), null);
                         }
                     }
 
@@ -379,6 +378,7 @@ public class WareHousingEntryCheckDetailActivity extends BaseMoudleActivity {
                     public void onError(Exception e) {
                         super.onError(e);
                         mProgressDilog.dismiss();
+                        showErrorTipsDialog(e.getMessage(), null);
                     }
                 });
     }

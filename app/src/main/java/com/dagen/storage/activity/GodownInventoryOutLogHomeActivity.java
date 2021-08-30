@@ -229,7 +229,7 @@ public class GodownInventoryOutLogHomeActivity extends BaseMoudleActivity {
                         } else {
                             mLists.clear();
                             rcView.getAdapter().notifyDataSetChanged();
-                            Toaster.showMsg(result.getValue());
+                            showErrorTipsDialog(result.getMsg().toString(), null);
                         }
                     }
 
@@ -240,6 +240,7 @@ public class GodownInventoryOutLogHomeActivity extends BaseMoudleActivity {
                         rcView.getAdapter().notifyDataSetChanged();
                         refreshLayout.finishRefresh();
                         mProgressDilog.dismiss();
+                        showErrorTipsDialog(e.getMessage(), null);
                     }
                 });
     }
@@ -351,6 +352,8 @@ public class GodownInventoryOutLogHomeActivity extends BaseMoudleActivity {
                             }
 
                             add();
+                        } else {
+                            showErrorTipsDialog(result.getMsg().toString(), null);
                         }
                     }
 
@@ -358,6 +361,7 @@ public class GodownInventoryOutLogHomeActivity extends BaseMoudleActivity {
                     public void onError(Exception e) {
                         super.onError(e);
                         mProgressDilog.dismiss();
+                        showErrorTipsDialog(e.getMessage(), null);
                     }
                 });
     }
@@ -403,20 +407,10 @@ public class GodownInventoryOutLogHomeActivity extends BaseMoudleActivity {
                                 // setResult(RESULT_OK);
                                 //  finish();
                             } else {
-                                showSureDialog(result.getValue(), new OnSureClickListener() {
-                                    @Override
-                                    public void onSure() {
-
-                                    }
-                                });
+                                showErrorTipsDialog(result.getMsg(), null);
                             }
                         } else {
-                            showSureDialog(result.getValue(), new OnSureClickListener() {
-                                @Override
-                                public void onSure() {
-
-                                }
-                            });
+                            showErrorTipsDialog(result.getMsg(), null);
                         }
                     }
 
@@ -424,6 +418,7 @@ public class GodownInventoryOutLogHomeActivity extends BaseMoudleActivity {
                     public void onError(Exception e) {
                         super.onError(e);
                         mProgressDilog.dismiss();
+                        showErrorTipsDialog(e.getMessage(), null);
                     }
                 });
     }

@@ -233,6 +233,8 @@ public class ScreenOutActivity extends BaseMoudleActivity {
                              }
 
                              rcSx.getAdapter().notifyDataSetChanged();
+                        } else {
+                            showErrorTipsDialog(result.getMsg().toString(), null);
                         }
                     }
 
@@ -240,6 +242,7 @@ public class ScreenOutActivity extends BaseMoudleActivity {
                     public void onError(Exception e) {
                         super.onError(e);
                         mProgressDilog.dismiss();
+                        showErrorTipsDialog(e.getMessage(), null);
                     }
                 });
     }
