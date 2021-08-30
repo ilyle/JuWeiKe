@@ -182,8 +182,8 @@ public class BaseMoudleActivity extends BaseActivity {
         // 获取焦点
         EditText et = dialog.getView(R.id.tv_value3);
         et.postDelayed(() -> {
+            et.setSelectAllOnFocus(true);
             et.requestFocus();
-            et.setSelection(et.getText().toString().length());
         }, 500);
 
         dialog.setOnClickListener(R.id.tv_modify, view -> {

@@ -112,6 +112,9 @@ public class MainActivity extends BaseMoudleActivity {
                                     case "cwup":
                                     case "standard":
                                     case "cwdown":
+                                    case "cwmove":
+                                    case "cwinv":
+                                    case "outin":
                                         intent = new Intent(MainActivity.this, GodownInventoryOutLogHomeActivity.class);
                                         intent.putExtra("tableid", item.getTableid());
                                         intent.putExtra("type", item.getType());

@@ -116,12 +116,12 @@ public class GodownInventoryOutLogHomeActivity extends BaseMoudleActivity {
                     public void convert(ViewHolder holder, HomeListBean.MsgBean.ListBean items) {
                         holder.setText(R.id.tv_dh_title, items.getName());
                         holder.setText(R.id.tv_dh, items.getValue());
-                        holder.setOnIntemClickListener(v -> onItemClick(v, item));
+                        holder.setOnIntemClickListener(v -> onItemClick2(v, item));
                     }
 
                 });
 
-                holder.setOnIntemClickListener(v -> onItemClick(v, item));
+                holder.setOnIntemClickListener(v -> onItemClick2(v, item));
             }
 
         });
@@ -243,6 +243,49 @@ public class GodownInventoryOutLogHomeActivity extends BaseMoudleActivity {
                         showErrorTipsDialog(e.getMessage(), null);
                     }
                 });
+    }
+
+    private void onItemClick2(View v, HomeListBean.MsgBean item) {
+        switch (getIntent().getStringExtra("type")) {
+            case "cwup":
+            {
+                Intent intent = new Intent(GodownInventoryOutLogHomeActivity.this, WareHousingEntryInLogDetailActivity.class);
+                intent.putExtra("id", item.getId());
+                intent.putExtra("tableid", getIntent().getStringExtra("tableid"));
+                startActivityForResult(intent, 500);
+                break;
+            }
+            case "cwdown":
+            {
+                Intent intent = new Intent(GodownInventoryOutLogHomeActivity.this, GodownInventoryOutLogDetailActivity.class);
+                intent.putExtra("id", item.getId());
+                intent.putExtra("tableid", getIntent().getStringExtra("tableid"));
+                startActivityForResult(intent, 500);
+                break;
+            }
+            case "cwmove":
+            {
+                Intent intent = new Intent(GodownInventoryOutLogHomeActivity.this, WareHousingEntryMoveDetailActivity.class);
+                intent.putExtra("id", item.getId());
+                intent.putExtra("tableid", getIntent().getStringExtra("tableid"));
+                startActivityForResult(intent, 500);
+                break;
+            }
+            case "cwinv":{
+                Intent intent = new Intent(GodownInventoryOutLogHomeActivity.this, WareHousingEntryCheckDetailActivity.class);
+                intent.putExtra("id", item.getId());
+                intent.putExtra("tableid", getIntent().getStringExtra("tableid"));
+                startActivityForResult(intent, 500);
+                break;
+            }
+            case "outin": {
+                Intent intent = new Intent(GodownInventoryOutLogHomeActivity.this, WareHousingEntryActivity.class);
+                intent.putExtra("id", item.getId());
+                intent.putExtra("tableid", getIntent().getStringExtra("tableid"));
+                startActivityForResult(intent, 500);
+                break;
+            }
+        }
     }
 
     private void onItemClick(View v, HomeListBean.MsgBean item) {

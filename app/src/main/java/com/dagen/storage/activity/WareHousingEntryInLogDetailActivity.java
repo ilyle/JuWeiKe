@@ -256,7 +256,7 @@ public class WareHousingEntryInLogDetailActivity extends BaseMoudleActivity {
                     @Override
                     public void onSuccess(CommBean result) {
                         etScam.setText("");
-                        etScam.postDelayed(()->etScam.requestFocus(), 500);
+                        etScam.postDelayed(() -> etScam.requestFocus(), 500);
                         //   mProgressDilog.dismiss();
                         if (result.getCode() == 200) {
                             Toaster.showMsg("插入成功！");
@@ -364,12 +364,12 @@ public class WareHousingEntryInLogDetailActivity extends BaseMoudleActivity {
 
         etSl.setSelection(etSl.getText().length());
 
-        if (getIntent().getStringExtra("tableid").equals("24404")) {
-            ll_jycw.setVisibility(View.GONE);
-            tv_sl_title.setText("下架数量: ");
-        } else {
-            getCw(tm, tvCw);
-        }
+//        if (getIntent().getStringExtra("tableid").equals("24404")) {
+//            ll_jycw.setVisibility(View.GONE);
+//            tv_sl_title.setText("下架数量: ");
+//        } else {
+//            getCw(tm, tvCw);
+//        }
 
         NetworkHelper.getInstance().getUpAliasList(this, userid, tableid, rowid, tm, new HttpCallBack<String>() {
             @Override
@@ -407,6 +407,9 @@ public class WareHousingEntryInLogDetailActivity extends BaseMoudleActivity {
     }
 
     private String generateCwQtyStr(String input) {
+        if (!TextUtils.isEmpty(input)) {
+            return "无库存数据";
+        }
         List<CwQtyBean> cwQtyBeanList = new Gson().fromJson(input, new TypeToken<List<CwQtyBean>>() {
         }.getType());
         StringBuilder builder = new StringBuilder();

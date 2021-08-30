@@ -121,11 +121,11 @@ public class GodownInventoryOutLogDetailActivity extends BaseMoudleActivity {
                         Toaster.showMsg("下架数量为0");
                         return;
                     }*/
-                    if (bean.getQtyplan() == 1) {
+                    if (bean.getQty() == 1) {
                         mProgressDilog.show();
                         insert(content, bean.getJycw(), bean.getQty());
                     } else {
-                        showPopup(content, bean.getQtyplan() - bean.getQty());
+                        showPopup(content, bean.getQty());
                     }
                 } else {
                     showErrorTipsDialog("扫描条码与建议条码不一致！", () -> {
