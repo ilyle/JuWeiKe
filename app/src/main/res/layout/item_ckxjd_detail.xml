@@ -45,7 +45,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
         android:gravity="center_horizontal"
-        android:text="单据数量"
+        android:text="盘点数量"
         android:textColor="@color/color_2a303c"
         android:textSize="14sp" />
 
@@ -55,7 +55,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
         android:gravity="center_horizontal"
-        android:text="下架数量"
+        android:text="账面数量"
         android:textColor="@color/color_2a303c"
         android:textSize="14sp" />
 

@@ -252,6 +252,7 @@ public class GodownInventoryOutLogHomeActivity extends BaseMoudleActivity {
                 Intent intent = new Intent(GodownInventoryOutLogHomeActivity.this, WareHousingEntryInLogDetailActivity.class);
                 intent.putExtra("id", item.getId());
                 intent.putExtra("tableid", getIntent().getStringExtra("tableid"));
+                intent.putExtra("type", getIntent().getStringExtra("type"));
                 startActivityForResult(intent, 500);
                 break;
             }
@@ -260,6 +261,7 @@ public class GodownInventoryOutLogHomeActivity extends BaseMoudleActivity {
                 Intent intent = new Intent(GodownInventoryOutLogHomeActivity.this, GodownInventoryOutLogDetailActivity.class);
                 intent.putExtra("id", item.getId());
                 intent.putExtra("tableid", getIntent().getStringExtra("tableid"));
+                intent.putExtra("type", getIntent().getStringExtra("type"));
                 startActivityForResult(intent, 500);
                 break;
             }
@@ -268,6 +270,7 @@ public class GodownInventoryOutLogHomeActivity extends BaseMoudleActivity {
                 Intent intent = new Intent(GodownInventoryOutLogHomeActivity.this, WareHousingEntryMoveDetailActivity.class);
                 intent.putExtra("id", item.getId());
                 intent.putExtra("tableid", getIntent().getStringExtra("tableid"));
+                intent.putExtra("type", getIntent().getStringExtra("type"));
                 startActivityForResult(intent, 500);
                 break;
             }
@@ -275,6 +278,7 @@ public class GodownInventoryOutLogHomeActivity extends BaseMoudleActivity {
                 Intent intent = new Intent(GodownInventoryOutLogHomeActivity.this, WareHousingEntryCheckDetailActivity.class);
                 intent.putExtra("id", item.getId());
                 intent.putExtra("tableid", getIntent().getStringExtra("tableid"));
+                intent.putExtra("type", getIntent().getStringExtra("type"));
                 startActivityForResult(intent, 500);
                 break;
             }
@@ -282,6 +286,7 @@ public class GodownInventoryOutLogHomeActivity extends BaseMoudleActivity {
                 Intent intent = new Intent(GodownInventoryOutLogHomeActivity.this, WareHousingEntryActivity.class);
                 intent.putExtra("id", item.getId());
                 intent.putExtra("tableid", getIntent().getStringExtra("tableid"));
+                intent.putExtra("type", getIntent().getStringExtra("type"));
                 startActivityForResult(intent, 500);
                 break;
             }
@@ -348,14 +353,9 @@ public class GodownInventoryOutLogHomeActivity extends BaseMoudleActivity {
                 break;
             case R.id.iv_common_right:
 
-                if (getIntent().getStringExtra("tableid").equals("24444") || getIntent().getStringExtra("tableid").equals("24404")) {
-                    mProgressDilog.show();
-                    questScreen();
-                    return;
-                }
-
                 Intent intent1 = new Intent(GodownInventoryOutLogHomeActivity.this, WareHousingInLogAddActivity.class);
                 intent1.putExtra("tableid", getIntent().getStringExtra("tableid"));
+                intent1.putExtra("type", getIntent().getStringExtra("type"));
                 startActivityForResult(intent1, 500);
                 break;
             case R.id.ll_sx:
@@ -363,6 +363,7 @@ public class GodownInventoryOutLogHomeActivity extends BaseMoudleActivity {
                 //  intent.putExtra("id",item.getId());
                 intent.putExtra("id", "");
                 intent.putExtra("tableid", getIntent().getStringExtra("tableid"));
+                intent.putExtra("type", getIntent().getStringExtra("type"));
                 startActivityForResult(intent, 600);
                 break;
 

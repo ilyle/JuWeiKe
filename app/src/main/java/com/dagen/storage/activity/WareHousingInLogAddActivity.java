@@ -55,9 +55,9 @@ public class WareHousingInLogAddActivity extends BaseMoudleActivity {
     @BindView(R.id.rc_sx)
     RecyclerView rcSx;
 
-    private List<ScreenBean.MsgBean>mBeans=new ArrayList<>();
+    private List<ScreenBean.MsgBean> mBeans = new ArrayList<>();
     private int pos;
-    private List<QueryArrBean>mQueryArrs=new ArrayList<>();
+    private List<QueryArrBean> mQueryArrs = new ArrayList<>();
 
     @Override
     public int getLayoutId() {
@@ -70,50 +70,50 @@ public class WareHousingInLogAddActivity extends BaseMoudleActivity {
         tvCommonTitle.setText("新增");
 
         rcSx.setLayoutManager(new LinearLayoutManager(this));
-        rcSx.setAdapter(new CommonRecyclerAdapter<ScreenBean.MsgBean>(this,mBeans,R.layout.item_screen_out) {
+        rcSx.setAdapter(new CommonRecyclerAdapter<ScreenBean.MsgBean>(this, mBeans, R.layout.item_screen_out) {
             @Override
             public void convert(ViewHolder holder, ScreenBean.MsgBean item) {
-                       holder.getView(R.id.iv_xl).setVisibility(item.getType().equals("select")?View.VISIBLE:View.GONE);
-                       EditText et=holder.getView(R.id.tv_content) ;
-                       TextView tvContent=holder.getView(R.id.tv_content2) ;
-                       if(item.getType().equals("select")){
-                           et.setVisibility(View.GONE);
-                           tvContent.setVisibility(View.VISIBLE);
-                           if(item.getSelectarr().size()>0)
-                               holder.setText(R.id.tv_content2,item.getSelectName());
+                holder.getView(R.id.iv_xl).setVisibility(item.getType().equals("select") ? View.VISIBLE : View.GONE);
+                EditText et = holder.getView(R.id.tv_content);
+                TextView tvContent = holder.getView(R.id.tv_content2);
+                if (item.getType().equals("select")) {
+                    et.setVisibility(View.GONE);
+                    tvContent.setVisibility(View.VISIBLE);
+                    if (item.getSelectarr().size() > 0)
+                        holder.setText(R.id.tv_content2, item.getSelectName());
 
-                       }else {
-                           et.setVisibility(View.VISIBLE);
-                           tvContent.setVisibility(View.GONE);
-                           et.setEnabled(true);
-                           holder.setText(R.id.tv_content,item.getValue());
-                       }
-                     // holder.setText(R.id.tv_content,item.getValue());
+                } else {
+                    et.setVisibility(View.VISIBLE);
+                    tvContent.setVisibility(View.GONE);
+                    et.setEnabled(true);
+                    holder.setText(R.id.tv_content, item.getValue());
+                }
+                // holder.setText(R.id.tv_content,item.getValue());
 
-                       et.addTextChangedListener(new TextWatcher() {
-                           @Override
-                           public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                et.addTextChangedListener(new TextWatcher() {
+                    @Override
+                    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
-                           }
+                    }
 
-                           @Override
-                           public void onTextChanged(CharSequence s, int start, int before, int count) {
+                    @Override
+                    public void onTextChanged(CharSequence s, int start, int before, int count) {
 
-                           }
+                    }
 
-                           @Override
-                           public void afterTextChanged(Editable s) {
-                                  mBeans.get(holder.getAdapterPosition()).setValue(s.toString());
-                           }
-                       });
+                    @Override
+                    public void afterTextChanged(Editable s) {
+                        mBeans.get(holder.getAdapterPosition()).setValue(s.toString());
+                    }
+                });
 
-                       holder.setText(R.id.tv_name,item.getName()+":");
+                holder.setText(R.id.tv_name, item.getName() + ":");
 
                 holder.getView(R.id.tv_content2).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        if(!item.getType().equals("select"))return;
-                        pos=holder.getAdapterPosition();
+                        if (!item.getType().equals("select")) return;
+                        pos = holder.getAdapterPosition();
                         pvCustomOptions.setPicker(item.getSelectarr());
                         pvCustomOptions.show();
                     }
@@ -121,22 +121,22 @@ public class WareHousingInLogAddActivity extends BaseMoudleActivity {
                 holder.getView(R.id.iv_xl).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        if(!item.getType().equals("select"))return;
-                        pos=holder.getAdapterPosition();
+                        if (!item.getType().equals("select")) return;
+                        pos = holder.getAdapterPosition();
                         pvCustomOptions.setPicker(item.getSelectarr());
                         pvCustomOptions.show();
                     }
                 });
 
-                       holder.setOnIntemClickListener(new View.OnClickListener() {
-                           @Override
-                           public void onClick(View v) {
-                               if(!item.getType().equals("select"))return;
-                               pos=holder.getAdapterPosition();
-                               pvCustomOptions.setPicker(item.getSelectarr());
-                               pvCustomOptions.show();
-                           }
-                       });
+                holder.setOnIntemClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if (!item.getType().equals("select")) return;
+                        pos = holder.getAdapterPosition();
+                        pvCustomOptions.setPicker(item.getSelectarr());
+                        pvCustomOptions.show();
+                    }
+                });
 
             }
 
@@ -145,9 +145,9 @@ public class WareHousingInLogAddActivity extends BaseMoudleActivity {
         initCustomOptionPicker(new OnPickerSelectListener() {
             @Override
             public void onPickerSelect(int options1, int options2, int options3) {
-                      mBeans.get(pos).setSelectName(mBeans.get(pos).getSelectarr().get(options1).getName());
-                      mBeans.get(pos).setSelectValue(mBeans.get(pos).getSelectarr().get(options1).getValue());
-                      rcSx.getAdapter().notifyDataSetChanged();
+                mBeans.get(pos).setSelectName(mBeans.get(pos).getSelectarr().get(options1).getName());
+                mBeans.get(pos).setSelectValue(mBeans.get(pos).getSelectarr().get(options1).getValue());
+                rcSx.getAdapter().notifyDataSetChanged();
 
             }
         });
@@ -179,17 +179,17 @@ public class WareHousingInLogAddActivity extends BaseMoudleActivity {
                     public void onSuccess(ScreenBean result) {
                         mProgressDilog.dismiss();
                         if (result.getCode() == 200) {
-                             mBeans.addAll(result.getMsg());
+                            mBeans.addAll(result.getMsg());
 
-                             for(int i=0;i<mBeans.size();i++){
-                                 if(mBeans.get(i).getType().equals("select")){
-                                     if(mBeans.get(i).getSelectarr().size()==0)return;
-                                     mBeans.get(i).setSelectName(mBeans.get(i).getSelectarr().get(0).getName());
-                                     mBeans.get(i).setSelectValue(mBeans.get(i).getSelectarr().get(0).getValue());
-                                 }
-                             }
+                            for (int i = 0; i < mBeans.size(); i++) {
+                                if (mBeans.get(i).getType().equals("select")) {
+                                    if (mBeans.get(i).getSelectarr().size() == 0) return;
+                                    mBeans.get(i).setSelectName(mBeans.get(i).getSelectarr().get(0).getName());
+                                    mBeans.get(i).setSelectValue(mBeans.get(i).getSelectarr().get(0).getValue());
+                                }
+                            }
 
-                             rcSx.getAdapter().notifyDataSetChanged();
+                            rcSx.getAdapter().notifyDataSetChanged();
                         } else {
                             showErrorTipsDialog(result.getMsg().toString(), null);
                         }
@@ -199,12 +199,12 @@ public class WareHousingInLogAddActivity extends BaseMoudleActivity {
                     public void onError(Exception e) {
                         super.onError(e);
                         mProgressDilog.dismiss();
-                        showErrorTipsDialog(e.getMessage(),null);
+                        showErrorTipsDialog(e.getMessage(), null);
                     }
                 });
     }
 
-    @OnClick({R.id.iv_common_left,R.id.tv_sure})
+    @OnClick({R.id.iv_common_left, R.id.tv_sure})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.iv_common_left:
@@ -220,10 +220,10 @@ public class WareHousingInLogAddActivity extends BaseMoudleActivity {
 
     private void add() {
         mQueryArrs.clear();
-        for(int i=0;i<mBeans.size();i++){
-            if(mBeans.get(i).getType().equals("select")){
+        for (int i = 0; i < mBeans.size(); i++) {
+            if (mBeans.get(i).getType().equals("select")) {
                 mQueryArrs.add(new QueryArrBean(mBeans.get(i).getDname(), mBeans.get(i).getSelectValue()));
-            }else {
+            } else {
                 mQueryArrs.add(new QueryArrBean(mBeans.get(i).getDname(), mBeans.get(i).getValue()));
             }
         }
@@ -245,34 +245,33 @@ public class WareHousingInLogAddActivity extends BaseMoudleActivity {
                     public void onSuccess(CommBean result) {
                         mProgressDilog.dismiss();
                         if (result.getCode() == 200) {
-                              if(result.getSucceed()==0){
-                                  Intent intent=null;
-                                  if(getIntent().getStringExtra("tableid").equals("24408")) {
-                                      intent = new Intent(WareHousingInLogAddActivity.this, WareHousingEntryInLogDetailActivity.class);
-                                  }else if(getIntent().getStringExtra("tableid").equals("24404")){
-                                      intent = new Intent(WareHousingInLogAddActivity.this, WareHousingEntryMoveDetailActivity.class);
-
-
-                                  }else if(getIntent().getStringExtra("tableid").equals("24426")){
-                                  intent = new Intent(WareHousingInLogAddActivity.this, WareHousingEntryCheckDetailActivity.class);
-
-                                  }else if(getIntent().getStringExtra("tableid").equals("24444")){
-                                  intent = new Intent(WareHousingInLogAddActivity.this, WareHousingEntryCheckDetailActivity.class);
-                                  }
-
-                                  else {
-                                      intent = new Intent(WareHousingInLogAddActivity.this, WareHousingEntryInLogDetailActivity.class);
-                                  }
-                                  intent.putExtra("id", Integer.parseInt(result.getValue()));
-                                  intent.putExtra("tableid", getIntent().getStringExtra("tableid"));
-                                  startActivityForResult(intent, 500);
-                                 // setResult(RESULT_OK);
+                            if (result.getSucceed() == 0) {
+                                Intent intent = new Intent();
+                                String type = getIntent().getStringExtra("type");
+                                switch (type) {
+                                    case "cwup":
+                                        intent = new Intent(WareHousingInLogAddActivity.this, WareHousingEntryInLogDetailActivity.class);
+                                        break;
+                                    case "cwdown":
+                                        break;
+                                    case "cwmove":
+                                        intent = new Intent(WareHousingInLogAddActivity.this, WareHousingEntryMoveDetailActivity.class);
+                                        break;
+                                    case "cwinv":
+                                        intent = new Intent(WareHousingInLogAddActivity.this, WareHousingEntryCheckDetailActivity.class);
+                                        break;
+                                }
+                                intent.putExtra("id", Integer.parseInt(result.getValue()));
+                                intent.putExtra("tableid", getIntent().getStringExtra("tableid"));
+                                intent.putExtra("type", getIntent().getStringExtra("type"));
+                                startActivityForResult(intent, 500);
+                                // setResult(RESULT_OK);
                                 //  finish();
-                              }else {
-                                  showErrorTipsDialog(result.getValue(), null);
-                              }
-                        }else {
-                           showErrorTipsDialog(result.getValue(), null);
+                            } else {
+                                showErrorTipsDialog(result.getMsg(), null);
+                            }
+                        } else {
+                            showErrorTipsDialog(result.getMsg(), null);
                         }
                     }
 

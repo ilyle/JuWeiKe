@@ -116,7 +116,7 @@ public class WareHousingEntryInLogDetailActivity extends BaseMoudleActivity {
                     holder.setText(R.id.tv_djsl, item.getQtyplan() + "");
                     holder.setText(R.id.tv_xjsl, item.getQty() + "");
                 } else {
-                    if (getIntent().getStringExtra("tableid").equals("24426")) {
+                    if (getIntent().getStringExtra("type").equals("cwdown")) {
                         holder.setText(R.id.tv_xjsl, "下架数量");
                     } else {
                         holder.setText(R.id.tv_xjsl, "上架数量");
@@ -146,6 +146,7 @@ public class WareHousingEntryInLogDetailActivity extends BaseMoudleActivity {
             public void onSuccess(CommBean result) {
                 mProgressDilog.dismiss();
                 if (result.getCode() == 200) {
+                    playSuccessTips();
                     // 刷新界面
                     quest();
                 } else {
@@ -169,6 +170,7 @@ public class WareHousingEntryInLogDetailActivity extends BaseMoudleActivity {
             public void onSuccess(CommBean result) {
                 mProgressDilog.dismiss();
                 if (result.getCode() == 200) {
+                    playSuccessTips();
                     // 刷新界面
                     quest();
                 } else {
@@ -362,7 +364,7 @@ public class WareHousingEntryInLogDetailActivity extends BaseMoudleActivity {
         LinearLayout ll_jycw = dialog.getView(R.id.ll_jycw);
 
 
-        etSl.setSelection(etSl.getText().length());
+        // etSl.setSelection(etSl.getText().length());
 
 //        if (getIntent().getStringExtra("tableid").equals("24404")) {
 //            ll_jycw.setVisibility(View.GONE);
@@ -375,6 +377,38 @@ public class WareHousingEntryInLogDetailActivity extends BaseMoudleActivity {
             @Override
             public void onSuccess(String result) {
                 tvCw.setText(generateCwQtyStr(result));
+                etSl.postDelayed(() -> {
+                    etSl.requestFocus();
+                    etSl.setSelectAllOnFocus(true);
+                    etSl.selectAll();
+                }, 500);
+            }
+        });
+
+        // 监听
+        setEditextFilter(etScan, new OnScanFinishListener() {
+            @Override
+            public void onScanFinish(String content) {
+                if (TextUtils.isEmpty(tvCw.getText().toString().trim())) {
+                    getCw(tm, tvCw);
+                    return;
+                }
+                if (TextUtils.isEmpty(etSl.getText().toString().trim())) {
+                    Toaster.showMsg("上架数量不能为空");
+                    return;
+                }
+                if (TextUtils.isEmpty(etScan.getText().toString().trim())) {
+                    Toaster.showMsg("实际储位不能为空");
+                    return;
+                }
+
+               /* if(!etScan.getText().toString().trim().equals(tvCw.getText().toString().trim())){
+                    Toaster.showMsg("实际储位与建议储位不一致");
+                    return;
+                }*/
+                dialog.dismiss();
+                mProgressDilog.show();
+                insert(tm, etScan.getText().toString().trim(), Integer.parseInt(etSl.getText().toString().trim()));
             }
         });
 
@@ -407,11 +441,14 @@ public class WareHousingEntryInLogDetailActivity extends BaseMoudleActivity {
     }
 
     private String generateCwQtyStr(String input) {
-        if (!TextUtils.isEmpty(input)) {
+        if (TextUtils.isEmpty(input)) {
             return "无库存数据";
         }
         List<CwQtyBean> cwQtyBeanList = new Gson().fromJson(input, new TypeToken<List<CwQtyBean>>() {
         }.getType());
+        if (cwQtyBeanList == null || cwQtyBeanList.size() == 0) {
+            return "无库存数据";
+        }
         StringBuilder builder = new StringBuilder();
         for (CwQtyBean cwQtyBean : cwQtyBeanList) {
             builder.append(cwQtyBean.toString()).append(", ");

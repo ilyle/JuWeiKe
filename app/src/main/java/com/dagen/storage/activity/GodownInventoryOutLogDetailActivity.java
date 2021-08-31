@@ -134,7 +134,6 @@ public class GodownInventoryOutLogDetailActivity extends BaseMoudleActivity {
                             etScam.requestFocus();
                         }, 500);
                     });
-                    playFailedTips();
 
                     // Toaster.showMsg("扫描条码与建议条码不一致！");
                 }
@@ -190,6 +189,7 @@ public class GodownInventoryOutLogDetailActivity extends BaseMoudleActivity {
             public void onSuccess(CommBean result) {
                 mProgressDilog.dismiss();
                 if (result.getCode() == 200) {
+                    playSuccessTips();
                     // 刷新界面
                     quest();
                 } else {
@@ -218,6 +218,7 @@ public class GodownInventoryOutLogDetailActivity extends BaseMoudleActivity {
             public void onSuccess(CommBean result) {
                 mProgressDilog.dismiss();
                 if (result.getCode() == 200) {
+                    playSuccessTips();
                     // 刷新界面
                     quest();
                 } else {

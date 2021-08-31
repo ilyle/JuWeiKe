@@ -107,7 +107,7 @@ public class WareHousingEntryCheckDetailActivity extends BaseMoudleActivity {
             @Override
             public void convert(ViewHolder holder, OutLogInfoBean.ItemBean item) {
 
-                holder.getView(R.id.tv_djsl).setVisibility(getIntent().getStringExtra("tableid").equals("24426") ? View.VISIBLE : View.GONE);
+                holder.getView(R.id.tv_djsl).setVisibility(getIntent().getStringExtra("type").equals("cwinv") ? View.VISIBLE : View.GONE);
 
                 if (holder.getAdapterPosition() != 0) {
                     holder.setText(R.id.tv_xh, (holder.getAdapterPosition()) + "");
@@ -116,7 +116,7 @@ public class WareHousingEntryCheckDetailActivity extends BaseMoudleActivity {
                     holder.setText(R.id.tv_djsl, item.getQtybook() + "");
                     holder.setText(R.id.tv_xjsl, item.getQty() + "");
                 } else {
-                    if (getIntent().getStringExtra("tableid").equals("24426")) {
+                    if (getIntent().getStringExtra("type").equals("cwinv")) {
                         holder.setText(R.id.tv_xjsl, "盘点数量");
                         holder.setText(R.id.tv_djsl, "账面数");
 
@@ -154,6 +154,7 @@ public class WareHousingEntryCheckDetailActivity extends BaseMoudleActivity {
             public void onSuccess(CommBean result) {
                 mProgressDilog.dismiss();
                 if (result.getCode() == 200) {
+                    playSuccessTips();
                     // 刷新界面
                     quest();
                 } else {
@@ -182,6 +183,7 @@ public class WareHousingEntryCheckDetailActivity extends BaseMoudleActivity {
             public void onSuccess(CommBean result) {
                 mProgressDilog.dismiss();
                 if (result.getCode() == 200) {
+                    playSuccessTips();
                     // 刷新界面
                     quest();
                 } else {
