@@ -95,7 +95,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:layout_marginLeft="20dp"
-            android:text="上架数量："
+            android:text="数量："
             android:textColor="@color/color_2a303c"
             android:textSize="14sp"/>
 

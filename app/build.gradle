@@ -8,8 +8,8 @@ android {
         applicationId "com.dagen.storage"
         minSdkVersion var.minSdkVersion
         targetSdkVersion var.targetSdkVersion
-        versionCode 10
-        versionName "1.0.10-2021083100"
+        versionCode 11
+        versionName "1.0.10-2021090100"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
     buildTypes {

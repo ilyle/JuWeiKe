@@ -429,6 +429,23 @@ public class WareHousingEntryCheckDetailActivity extends BaseMoudleActivity {
 
         etSl.setSelection(etSl.getText().length());
 
+        setEditextFilter(etScan, new OnScanFinishListener() {
+            @Override
+            public void onScanFinish(String content) {
+                if (TextUtils.isEmpty(etSl.getText().toString().trim())) {
+                    Toaster.showMsg("下架架数量不能为空");
+                    return;
+                }
+                if (!getIntent().getStringExtra("tableid").equals("24426") && TextUtils.isEmpty(etScan.getText().toString().trim())) {
+                    Toaster.showMsg("实际储位不能为空");
+                    return;
+                }
+                dialog.dismiss();
+                mProgressDilog.show();
+                insert(tm, etScan.getText().toString().trim(), Integer.parseInt(etSl.getText().toString().trim()));
+            }
+        });
+
         ll_jycw.setVisibility(View.GONE);
         tv_sl_title.setText("数量: ");
 

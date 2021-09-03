@@ -367,12 +367,30 @@ public class WareHousingEntryMoveDetailActivity extends BaseMoudleActivity {
 
         etSl.setSelection(etSl.getText().length());
 
-        if (getIntent().getStringExtra("tableid").equals("24404")) {
+        if (getIntent().getStringExtra("type").equals("cwmove")) {
             ll_jycw.setVisibility(View.GONE);
             tv_sl_title.setText("数量: ");
         } else {
             getCw(tm, tvCw);
         }
+
+        // 扫描实际储位
+        setEditextFilter(etScan, new OnScanFinishListener() {
+            @Override
+            public void onScanFinish(String content) {
+                if (TextUtils.isEmpty(etSl.getText().toString().trim())) {
+                    Toaster.showMsg("数量不能为空");
+                    return;
+                }
+                if (TextUtils.isEmpty(etScan.getText().toString().trim())) {
+                    Toaster.showMsg("实际储位不能为空");
+                    return;
+                }
+                dialog.dismiss();
+                mProgressDilog.show();
+                insert(tm, etScan.getText().toString().trim(), Integer.parseInt(etSl.getText().toString().trim()));
+            }
+        });
 
         dialog.setOnClickListener(R.id.tv_sure, new View.OnClickListener() {
             @Override
