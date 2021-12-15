@@ -21,6 +21,7 @@ import com.dagen.storage.bean.QueryArrBean;
 import com.dagen.storage.bean.ScreenBean;
 import com.dagen.storage.support.Contasts;
 import com.dagen.storage.support.OnPickerSelectListener;
+import com.dagen.storage.support.OnScanFinishListener;
 import com.dagen.storage.support.OnSureClickListener;
 import com.dagen.storage.utils.Toaster;
 import com.wanlv365.lawyer.baselibrary.HttpUtils;
@@ -89,6 +90,16 @@ public class WareHousingInLogAddActivity extends BaseMoudleActivity {
                     holder.setText(R.id.tv_content, item.getValue());
                 }
                 // holder.setText(R.id.tv_content,item.getValue());
+
+                et.postDelayed(et::requestFocus, 500);
+
+                setEditextFilter(et, new OnScanFinishListener() {
+                    @Override
+                    public void onScanFinish(String content) {
+                        mProgressDilog.show();
+                        add();
+                    }
+                });
 
                 et.addTextChangedListener(new TextWatcher() {
                     @Override

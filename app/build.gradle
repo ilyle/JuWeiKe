@@ -9,7 +9,7 @@ android {
         minSdkVersion var.minSdkVersion
         targetSdkVersion var.targetSdkVersion
         versionCode 11
-        versionName "1.0.10-2021090100"
+        versionName "1.0.10-2021090300"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
