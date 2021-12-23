@@ -74,7 +74,7 @@ public class StockQueryForSpecActivity extends BaseMoudleActivity {
     SmartTable table;
 
     private List<StockQueryBean.MsgBean.ListBean> mBeans = new ArrayList<>();
-    private String sku = "2100100611117";
+    private String sku = "";
     private String storecode = "";
 
     @Override

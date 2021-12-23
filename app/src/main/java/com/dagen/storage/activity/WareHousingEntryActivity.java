@@ -91,7 +91,7 @@ public class WareHousingEntryActivity extends BaseMoudleActivity implements Comm
     private int index;
     private String diffreason="";
     private String ifcontrim="N";
-
+    private boolean enter=false;
 
     @Override
     public int getLayoutId() {
@@ -101,13 +101,17 @@ public class WareHousingEntryActivity extends BaseMoudleActivity implements Comm
     @Override
     public void initData() {
         super.initData();
-        tvCommonTitle.setText("入库单");
+        tvCommonTitle.setText(getIntent().getStringExtra("name"));
 
         for (int i = 0; i < 20; i++) {
             HomeBean bean = new HomeBean();
             bean.setName("出库单" + i);
             mBeans.add(bean);
         }
+        etScam.setFocusable(true);
+        etScam.setFocusableInTouchMode(true);
+        etScam.requestFocus();
+        etScam.findFocus();
 
         rcView.setLayoutManager(new LinearLayoutManager(this) {
             @Override
@@ -325,6 +329,8 @@ public class WareHousingEntryActivity extends BaseMoudleActivity implements Comm
     }
 
     private void questScan(String pdt) {
+        if (enter)return;
+        System.out.println("questScan:------");
         Map<String, Object> params = new HashMap<>();
         params.put("userid", Integer.parseInt(SharePreferenceUtil.getInstance().getString("userId")));
         params.put("tableid", Integer.parseInt(getIntent().getStringExtra("tableid")));
@@ -334,6 +340,7 @@ public class WareHousingEntryActivity extends BaseMoudleActivity implements Comm
         Map<String, Object> data = new HashMap<>();
         data.put("method", "boxno_scan_ard_new");
         data.put("params", params);
+        enter=true;
         HttpUtils.with(this)
                 .url(Contasts.BASE_URL)
                 .doJsonPost()
@@ -341,19 +348,20 @@ public class WareHousingEntryActivity extends BaseMoudleActivity implements Comm
                 .execute(new HttpCallBack<RKBean>() {
                     @Override
                     public void onSuccess(RKBean result) {
+                        enter=false;
                         mProgressDilog.dismiss();
                         if (result.getCode() == 200) {
                             if (result.getSucceed() == 0) {
-                               // quest();
+                                // quest();
 
                                 if(ifcontrim.equals("Y")){
                                     showPopup(pdt);
                                 }else {
-                                    mProgressDilog.show();
-                                    insert(pdt,"",1);
+                                    quest();
+                                    //mProgressDilog.show();
+                                    //insert(pdt,"",1);
                                     //getCw(content);
                                 }
-
                             } else if (result.getSucceed() == -1) {
                                 Intent intent = new Intent(WareHousingEntryActivity.this, WareHousingEntryInsert2Activity.class);
                                 intent.putExtra("name", pdt);
@@ -362,19 +370,22 @@ public class WareHousingEntryActivity extends BaseMoudleActivity implements Comm
                                 startActivityForResult(intent, 600);
                                 popupWindow.dismiss();
                             } else {
-                                showErrorTipsDialog(result.getValue(), null);
+                                showErrorTipsDialog(result.getMsg(), null);
                             }
                         } else {
-                            showErrorTipsDialog(result.getValue(), null);
+                            showErrorTipsDialog(result.getMsg(), null);
 
                         }
+                        etScam.setText("");
                     }
 
                     @Override
                     public void onError(Exception e) {
+                        enter=true;
                         super.onError(e);
                         mProgressDilog.dismiss();
                         showErrorTipsDialog(e.getMessage(), null);
+                        etScam.setText("");
                     }
                 });
     }

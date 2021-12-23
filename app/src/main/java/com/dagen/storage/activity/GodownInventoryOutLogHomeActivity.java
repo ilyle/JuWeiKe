@@ -287,6 +287,7 @@ public class GodownInventoryOutLogHomeActivity extends BaseMoudleActivity {
                 intent.putExtra("id", item.getId());
                 intent.putExtra("tableid", getIntent().getStringExtra("tableid"));
                 intent.putExtra("type", getIntent().getStringExtra("type"));
+                intent.putExtra("name", getIntent().getStringExtra("name"));
                 startActivityForResult(intent, 500);
                 break;
             }

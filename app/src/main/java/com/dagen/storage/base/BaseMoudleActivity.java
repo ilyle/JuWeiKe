@@ -90,20 +90,32 @@ public class BaseMoudleActivity extends BaseActivity {
         et.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
-                if (keyEvent != null && i == 0 && keyEvent.getAction() == KeyEvent.ACTION_DOWN) {
+                /*if (keyEvent != null && i==0 && keyEvent.getAction() == KeyEvent.ACTION_UP) {
                     if (listener != null) listener.onScanFinish(et.getText().toString().trim());
                     return true;
-                }
+                }*/
 
-                if (i == 6) {
+               /* if (i == 6) {
                     KeyboardUtils.hideSoftInput(BaseMoudleActivity.this);
                     if (listener != null) listener.onScanFinish(et.getText().toString().trim());
                     return true;
-                }
+                }*/
 
                 return false;
             }
+
         });
+
+        /*et.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                if (event != null && keyCode==KeyEvent.KEYCODE_ENTER && event.getAction() == KeyEvent.ACTION_UP) {
+                    if (listener != null) listener.onScanFinish(et.getText().toString().trim());
+                    return true;
+                }
+                return false;
+            }
+        });*/
     }
 
     public void setEditextFilter(EditText et, OnScanFinishListener2 listener) {
@@ -115,10 +127,10 @@ public class BaseMoudleActivity extends BaseActivity {
         et.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
-                if (keyEvent != null && i == 0 && keyEvent.getAction() == KeyEvent.ACTION_DOWN) {
+                /*if (keyEvent != null && i==0 && keyEvent.getAction() == KeyEvent.ACTION_UP) {
                     if (listener != null) listener.onScanFinish(et.getText().toString().trim());
                     return true;
-                }
+                }*/
 
                 if (i == 6) {
                     KeyboardUtils.hideSoftInput(BaseMoudleActivity.this);
@@ -126,6 +138,17 @@ public class BaseMoudleActivity extends BaseActivity {
                     return true;
                 }
 
+                return false;
+            }
+        });
+
+        et.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                if (event != null && keyCode==KeyEvent.KEYCODE_ENTER && event.getAction() == KeyEvent.ACTION_UP) {
+                    if (listener != null) listener.onScanFinish(et.getText().toString().trim());
+                    return true;
+                }
                 return false;
             }
         });

@@ -12,7 +12,17 @@ public class RKBean {
     private int succeed;
     private String value;
     private int code;
-    private MsgBean msg;
+    private String msg;
+
+    public MsgBean getData() {
+        return data;
+    }
+
+    public void setData(MsgBean data) {
+        this.data = data;
+    }
+
+    private MsgBean data;
 
     public int getSucceed() {
         return succeed;
@@ -38,11 +48,11 @@ public class RKBean {
         this.code = code;
     }
 
-    public MsgBean getMsg() {
+    public String getMsg() {
         return msg;
     }
 
-    public void setMsg(MsgBean msg) {
+    public void setMsg(String msg) {
         this.msg = msg;
     }
 

@@ -119,7 +119,7 @@ public class MainActivity extends BaseMoudleActivity {
                                         intent.putExtra("tableid", item.getTableid());
                                         intent.putExtra("type", item.getType());
                                         intent.putExtra("isAdd", item.getIs_permitadd());
-                                        intent.putExtra("title", item.getName());
+                                        intent.putExtra("name", item.getName());
                                         startActivity(intent);
                                         break;
                                     case "skuquery":
